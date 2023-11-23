@@ -3,26 +3,20 @@ package org.recoder;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Lexer {
 
-    List<Token> tokensList = new ArrayList<>();
+    List<Token> tokenList = new ArrayList<>();
     String filepath;
 
     Lexer(String filepath){
         this.filepath = filepath;
     }
 
-    public void catFile(String filepath) throws IOException {
-        FileReader reader = new FileReader(filepath);
-        int b;
-        while((b=reader.read()) != -1){
-            System.out.print((char)b);
-        }
-    }
-
-    //Scan for each character
-    public void ScanToken(String text) throws  IOException{
+    //Scans the file itself.
+    public void ScanFile() throws IOException{
+        //file reader
         FileReader reader;
         try {
             reader = new FileReader(filepath);
@@ -30,42 +24,35 @@ public class Lexer {
             e.printStackTrace();
             return;
         }
-        char b;
-        int line = 0;
 
-        while ((b=(char)reader.read()) != -1){
-            switch (b){
-                case '+':
-                    addToken(TokenType.PLUS, "+", line);
-                    break;
-                case '-':
-                    addToken(TokenType.MINUS, "-",  line);
-                    break;
-                case '*':
-                    addToken(TokenType.STAR, "*",  line);
-                    break;
-                case '/':
-                    addToken(TokenType.SLASH, "/",  line);
-                    break;
-                case '(':
-                    addToken(TokenType.LPAREN, "(",  line);
-                    break;
-                case ')':
-                    addToken(TokenType.RPAREN, ")",  line);
-                    break;
-                case ';':
-                    addToken(TokenType.SEMICOL, ";",  line);
-                    break;
-                case ':':
-                    addToken(TokenType.COL, ":",  line);
-                    break;
-            }
+        int b; //temporary character storage
+
+        //iterates into every character inside the file
+        while ((b=reader.read()) != -1){
+            //displays every character (sample logic)
+            String x = "sample: " + (char)b + "\n";
+            System.out.print(x);
         }
+
+    }
+
+    //checks if the token is valid
+    private boolean CheckToken(String text){
+        return false;
+    }
+
+    //identifies the type of token and stores to the token list
+    private void Tokenize(){
     }
 
 
-    //add token
-    private void addToken(TokenType type, String lexeme, int line){
-        tokensList.add(new Token(type, lexeme, line));
+    //add token to the list
+    private void AddToken(TokenType type, String lexeme, int line){
+        tokenList.add(new Token(type, lexeme, line));
+    }
+
+    //returns the tokenList (Will be used in Syntax Analyzer)
+    public List<Token> getToken(){
+        return tokenList;
     }
 }
