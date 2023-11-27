@@ -46,7 +46,7 @@ class Lexer:
             print(e)
 
 
-    def checkToken(self, char, file_itr, key_itr):
+    def checkToken(self, char, char_itr, key_itr):
 
         keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
         keyword_list.sort()
@@ -58,12 +58,12 @@ class Lexer:
 
 
         #check if current iteration is greater then the scan iteration
-        if(file_itr > len(scan_list[key_itr])):
+        if(char_itr > len(scan_list[key_itr])):
             
             return False
         
         print(scan_list[key_itr][key_itr])
-        if(scan_list[key_itr][file_itr] == char):
+        if(scan_list[key_itr][char_itr] == char):
             return True
         elif key_itr > 6:
             self.delimiter = True
