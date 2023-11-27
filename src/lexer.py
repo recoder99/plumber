@@ -30,7 +30,15 @@ class Lexer:
                    TokenType.FOR, TokenType.WHILE, TokenType.TRUE, 
                    TokenType.FALSE, TokenType.EOF ]
         
-        #operators = [TokenType.]
+
+        
+        operators = {'+': TokenType.PLUS, 
+                     '-': TokenType.MINUS, 
+                     '*': TokenType.STAR,
+                     '/': TokenType.SLASH,
+                     '=': TokenType.EQUAL,
+                     '!=':TokenType.NEQUAL,
+                     '>=':TokenType.GT_EQUAL}
     
     def tokenize(self): 
 
