@@ -4,7 +4,7 @@ def main():
 
     try: 
 
-        filepath = "C:\\Users\\roelc\\IdeaProjects\\plumber\\src\\main\\java\\org\\recoder\\test.plumb"
+        filepath = "D:\\user_data\\Documents\\code_projects\\plumber\\src\\sample.plumb"
         simple_lexer = Lexer(filepath)
         simple_lexer.scanFile()
 
