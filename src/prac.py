@@ -1,8 +1,4 @@
-class YourLexicalAnalyzer:
-    keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
-    operators_list = [' ', '+', '-', '*', '/', '<<', '=', '!=']
-    operators_list.sort()
-
+class LexicalFuck:
     def __init__(self, file_path):
         self.file_path = file_path
         self.delimiter = False
@@ -19,20 +15,14 @@ class YourLexicalAnalyzer:
                         char = line[char_itr]
                         isValid = self.checkToken(char, char_itr, keyword_itr)
 
-                        while not isValid:
+                        if not isValid:
                             keyword_itr += 1
-                            if keyword_itr >= len(self.keyword_list) + len(self.operators_list):
-                                # Restart the entire file scan
+                        else:
+                            if self.delimiter:
+                                self.tokenize(concat_text)
+                                self.delimiter = False
                                 char_itr = -1
                                 keyword_itr = 0
-                                break
-                            isValid = self.checkToken(char, char_itr, keyword_itr)
-
-                        if self.delimiter and isValid:
-                            self.tokenize(concat_text)
-                            self.delimiter = False
-                            char_itr = -1
-                            keyword_itr = 0
 
                         char_itr += 1
 
@@ -40,7 +30,11 @@ class YourLexicalAnalyzer:
             print(e)
 
     def checkToken(self, char, char_itr, key_itr):
-        scan_list = self.keyword_list + self.operators_list
+        keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
+        operators_list = [' ', '+', '-', '*', '/', '<<', '=', '!=']
+        operators_list.sort()
+
+        scan_list = keyword_list + operators_list
 
         if key_itr >= len(scan_list):
             return False
@@ -53,47 +47,12 @@ class YourLexicalAnalyzer:
 
         if current_lexeme[char_itr] == char:
             return True
+        elif key_itr >= len(keyword_list):
+            self.delimiter = True
+            return True
         else:
-            # Restart the entire file scan
             return False
 
     def tokenize(self, lexeme):
         
         print(f'Tokenizing: {lexeme}')
-
-                    
-
-                    
-                            
-                    
-                        
-
-                    
-                    
-
-    #def isValid(char, char_itr, key_itr, scan_list, concat_text):
-
-     #   if char_itr + 1  > len(scan_list[key_itr]): 
-
-      #      return False
-        
-
-       # if scan_list[key_itr] == concat_text: 
-
-        #    return True 
-        
-       # else: 
-        #    return False
-        
-        
-
-
-
-        
-    
-
-
-
-                    
-                    
-
