@@ -1,108 +1,96 @@
-import io 
-from tokens import TokenType, Token
-
-
-class Lexer:
-
-    delimiter = False
-
-
-    def __init__(self, file_path): 
-        
-        self.token_list = []
+class LexicalFuck:
+    def __init__(self, file_path):
         self.file_path = file_path
+        self.delimiter = False
+    
+    keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '<<', '=', '!=']
 
-
-    def scanFile(self): 
-
-        try: 
-            with open(self.file_path, 'r') as file: 
-                char_itr = 0
-                keyword_itr = 0
-
-                concat_text = ""
-                for line_number, line in enumerate(file, start=1):
-                    
-
-                    for char in line:
-
-                        isValid = self.checkToken(char, char_itr, keyword_itr)
-
-                        if isValid == False:
-                            keyword_itr += 1
+    def scanToken(self):
+        self.keyword_list.sort()
+        self.operator_list.sort()
+        token_temp = ""
+        is_string = False
+        is_delimiter = False
+        try:
+            with open(self.file_path, 'r') as file:
+                while True:
+                    c = file.read(1)    
+                        #for string operations
+                    if c == '\"':
+                        if not is_string:
+                            self.tokenize(token_temp)
+                            token_temp = c
+                            is_string  = not is_string
                         else:
-                            if self.delimiter == True:
-                                self.tokenize(concat_text)
-                                self.delimiter = False
-                                char_itr = -1
-                                keyword_itr = 0
-                    
-                        char_itr += 1
-                            
-                        #x = f"Sample: {char}\n"
-                        #print(x, end="")
+                            self.tokenize(token_temp + '\"')
+                            token_temp = ""
+                            is_string = not is_string
+                        continue
 
-        except IOError as e: 
+                    if is_string:
+                        token_temp += c
+                        continue
+
+                    if is_delimiter == False and c in self.operator_list:
+                        #tokenize token_temp
+                        self.tokenize(token_temp)
+                        token_temp = ""
+                        is_delimiter = True
+
+                    if is_delimiter:
+                        temp = token_temp + c
+                        if temp in self.operator_list:
+                            token_temp += c
+                        else:
+                            is_delimiter = False
+                            self.tokenize(token_temp)
+                            token_temp = c 
+                        continue
+
+                    token_temp += c
+                       
+                                
+                            # if key_itr < len(self.keyword_list):
+                            #     if char_itr < len(self.keyword_list[key_itr]):
+                            #         if c == self.keyword_list[key_itr][char_itr]:
+                            #             char_itr += 1
+                            #         else:
+                            #             key_itr += 1
+
+                        
+
+
+        except IOError as e:
             print(e)
 
-
     def checkToken(self, char, char_itr, key_itr):
-
         keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
-        keyword_list.sort()
-        operators_list = [' ','+', '-', '*', '/','<<', '=', '!=']
+        operators_list = [' ',':', '+', '-', '*', '/', '<<', '=', '!=']
         operators_list.sort()
-
 
         scan_list = keyword_list + operators_list
 
-
-        #check if current iteration is greater then the scan iteration
-        if(char_itr > len(scan_list[key_itr])):
-            
+        if key_itr >= len(scan_list):
             return False
-        
-        print(scan_list[key_itr][key_itr])
-        if(scan_list[key_itr][char_itr] == char):
+
+        current_lexeme = scan_list[key_itr]
+
+        if char_itr >= len(current_lexeme):
+            # Move to the next lexeme
+            return False
+
+        if current_lexeme[char_itr] == char:
             return True
-        elif key_itr > 6:
+        elif key_itr >= len(keyword_list):
             self.delimiter = True
             return True
         else:
             return False
 
-
-
-    
-        keyword = [TokenType.GET, TokenType.SET, TokenType.DO, 
-                   TokenType.IF, TokenType.ELIF, TokenType.ELSE, 
-                   TokenType.FOR, TokenType.WHILE, TokenType.TRUE, 
-                   TokenType.FALSE, TokenType.EOF ]
-        
-
-        
-        operators = {'+': TokenType.PLUS, 
-                     '-': TokenType.MINUS, 
-                     '*': TokenType.STAR,
-                     '/': TokenType.SLASH,
-                     '=': TokenType.EQUAL,
-                     '!=':TokenType.NEQUAL,
-                     '>=':TokenType.GT_EQUAL}
-        
-
-
-    
-    
-    def tokenize(self, lexeme): 
-        print(lexeme)
-        pass 
-
-    def addToken(self, type, lexeme, line): 
-
-        pass
-    
-    def getToken(self): 
-
-        return self.token_list
-    
-
+    def tokenize(self, lexeme):
+        if lexeme == '\n':
+            lexeme = "newline"
+        elif lexeme == ' ':
+            lexeme = "whitespace"
+        print(f'Tokenizing: {lexeme}')
