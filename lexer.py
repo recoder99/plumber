@@ -17,6 +17,9 @@ class LexicalFuck:
                 while True:
                     c = file.read(1)    
                         #for string operations
+                    if not c:
+                        print("EOF")
+                        break
                     if c == '\"':
                         if not is_string:
                             self.tokenize(token_temp)
