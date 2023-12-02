@@ -212,7 +212,7 @@ class LexicalAnalyzer:
             token_type = TokenType.HASH
 
         elif lexeme == '<<': 
-            token_type = TokenType.ASMTAD
+            token_type = TokenType.ASMT
         
         elif self.isIdentifier(lexeme): 
             token_type = TokenType.ID
@@ -228,7 +228,8 @@ class LexicalAnalyzer:
             print("A lexical error has occured. The following lexeme {} is not recognized.".format(lexeme))
             token_type = TokenType.ERROR  
 
-        token = Token()
+        token = Token(token_type, lexeme, line_number)
+        token.show_token()
 
           
 
