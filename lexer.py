@@ -3,10 +3,10 @@ from tokens import TokenType, Token
 class LexicalAnalyzer:
     def __init__(self, file_path):
         self.file_path = file_path
-        self.delimiter = False
+    
     
     keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else', 'for', 'while', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '<<', '=', '!=']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '<<', '=', '!=', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -225,8 +225,7 @@ class LexicalAnalyzer:
 
         else: 
 
-            print("A lexical error has occured. The following lexeme {} is not recognized.".format(lexeme))
-            token_type = TokenType.ERROR  
+            raise ValueError(f"A lexical error has occured. The following lexeme {lexeme} is not recognized.") 
 
         token = Token(token_type, lexeme, line_number)
         token.show_token()
