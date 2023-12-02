@@ -27,21 +27,24 @@ class TokenType(Enum):
     LT_EQUAL = 20
 
     ID = 21
-    STRING = 22
-    NUMBER = 23
-    HASH = 24
+    VAR = 22
+    STRING = 23
+    NUMBER = 24
+    HASH = 25
 
-    GET = 25
-    SET = 26
-    DO = 27
-    IF = 28
-    ELIF = 29
-    ELSE = 30
-    FOR = 31
-    WHILE = 32
-    TRUE = 33
-    FALSE = 34
-    EOF = 35
+    GET = 26
+    SET = 27
+    DO = 28
+    IF = 29
+    ELIF = 30
+    ELSE = 31
+    FOR = 32
+    WHILE = 33
+    TRUE = 34
+    FALSE = 35
+    EOF = 36
+
+    ERROR = 36
 
 class Token(): 
 
