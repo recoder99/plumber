@@ -1,4 +1,6 @@
-class LexicalFuck:
+from tokens import TokenType
+
+class LexicalAnalyzer:
     def __init__(self, file_path):
         self.file_path = file_path
         self.delimiter = False
@@ -6,9 +8,19 @@ class LexicalFuck:
     keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
     operator_list = [' ', '\n', ':', '+', '-', '*', '/', '<<', '=', '!=']
 
+    
+
     def scanToken(self):
         self.keyword_list.sort()
         self.operator_list.sort()
+        self.keyword_mapping = {
+        'get': TokenType.GET, 
+        'set': TokenType.SET, 
+        'do': TokenType.DO, 
+        'if': TokenType.IF, 
+        'elif': TokenType.ELIF, 
+        'else': TokenType.ELSE
+    }
         token_temp = ""
         is_string = False
         is_delimiter = False
@@ -67,33 +79,85 @@ class LexicalFuck:
         except IOError as e:
             print(e)
 
-    def checkToken(self, char, char_itr, key_itr):
-        keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else']
-        operators_list = [' ',':', '+', '-', '*', '/', '<<', '=', '!=']
-        operators_list.sort()
-
-        scan_list = keyword_list + operators_list
-
-        if key_itr >= len(scan_list):
-            return False
-
-        current_lexeme = scan_list[key_itr]
-
-        if char_itr >= len(current_lexeme):
-            # Move to the next lexeme
-            return False
-
-        if current_lexeme[char_itr] == char:
-            return True
-        elif key_itr >= len(keyword_list):
-            self.delimiter = True
-            return True
-        else:
-            return False
+        
 
     def tokenize(self, lexeme):
-        if lexeme == '\n':
-            lexeme = "newline"
-        elif lexeme == ' ':
-            lexeme = "whitespace"
-        print(f'Tokenizing: {lexeme}')
+
+        if lexeme in self.keyword_list: 
+            token_type = self.keyword_mapping.get(lexeme, TokenType.ID)
+
+        elif lexeme[0] == '""' and lexeme[-1] == '""': 
+            token_type = TokenType.STRING
+
+        elif lexeme == '=': 
+            token_type = TokenType.EQUAL
+
+        elif lexeme == '!=': 
+            token_type = TokenType.NEQUAL
+
+        elif lexeme == '>': 
+            token_type = TokenType.GT
+
+        elif lexeme == '>=': 
+            token_type = TokenType.GT_EQUAL
+
+        elif lexeme == '<': 
+            token_type = TokenType.LT
+
+        elif lexeme == '<=': 
+            token_type = TokenType.LT_EQUAL
+        
+        elif lexeme == '+': 
+            token_type = TokenType.PLUS 
+
+        elif lexeme == '-': 
+            token_Type = TokenType.MINUS 
+        
+        elif lexeme == '*': 
+            token_type = TokenType.STAR
+
+        elif lexeme == '/': 
+            token_type = TokenType.SLASH
+
+        elif lexeme == ':': 
+            token_type = TokenType.COL
+
+        elif lexeme == '\n': 
+            token_type = TokenType.NEWLINE
+
+        elif lexeme == '(': 
+            token_type = TokenType.LPAREN
+
+        elif lexeme == ')': 
+            token_type = TokenType.RPAREN
+
+        elif lexeme == '{': 
+            token_type = TokenType.LCBRACK
+
+        elif lexeme == '}': 
+            token_type = TokenType.RCBRACK
+
+        elif lexeme == ';': 
+            token_type = TokenType.SEMICOL
+
+        elif lexeme == '.': 
+            token_type = TokenType.DOT
+
+        elif lexeme == '"':
+            token_type = TokenType.QUOTE
+
+        elif lexeme == '#':
+            token_type = TokenType.HASH
+
+        elif lexeme == '<<': 
+            token_type = TokenType.ASMT
+
+        else: 
+            token_type = TokenType.ID
+
+        
+            
+
+
+        
+
