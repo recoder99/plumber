@@ -100,11 +100,11 @@ class LexicalAnalyzer:
 
     def isDigit(self,lexeme): 
 
-        digits = [0,1,2,3,4,5,6,7,8,9]
+        
 
         for char in lexeme: 
 
-            if char not in digits: 
+            if char not in self.num: 
 
                 return False 
             
