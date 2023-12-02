@@ -212,7 +212,7 @@ class LexicalAnalyzer:
             token_type = TokenType.HASH
 
         elif lexeme == '<<': 
-            token_type = TokenType.ASMT
+            token_type = TokenType.ASMTAD
         
         elif self.isIdentifier(lexeme): 
             token_type = TokenType.ID
