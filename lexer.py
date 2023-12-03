@@ -38,15 +38,23 @@ class LexicalAnalyzer:
         token_temp = ""
         is_string = False
         is_delimiter = False
-        current_line = 1 #track the current line number 
+        
+        
+
         try:
             with open(self.file_path, 'r') as file:
+                    
+                current_line = 1 #track the current line number 
+                  #for string operations
                 while True:
-                    c = file.read(1)    
-                        #for string operations
+                    
+                    c = file.read(1)
+                        
                     if not c:
-                        print("EOF")
+                        if token_temp: 
+                            self.tokenize(token_temp,current_line)
                         break
+
                     if c == '\"':
                         if not is_string:
                             self.tokenize(token_temp, current_line)
@@ -74,25 +82,14 @@ class LexicalAnalyzer:
                             token_temp += c
                         else:
                             is_delimiter = False
-                            self.tokenize(token_temp)
+                            self.tokenize(token_temp, current_line)
                             token_temp = c 
                         continue
 
                     token_temp += c
 
                     if c == '\n': 
-                        current_line += 1 
-                       
-                                
-                            # if key_itr < len(self.keyword_list):
-                            #     if char_itr < len(self.keyword_list[key_itr]):
-                            #         if c == self.keyword_list[key_itr][char_itr]:
-                            #             char_itr += 1
-                            #         else:
-                            #             key_itr += 1
-
-                        
-
+                        current_line += 1
 
         except IOError as e:
             print(e)
@@ -140,7 +137,11 @@ class LexicalAnalyzer:
 
     def tokenize(self, lexeme, line_number):
 
-        
+        while lexeme and lexeme[0] == ' ': 
+            lexeme = lexeme[1:]
+
+        if not lexeme:
+            return
 
         if lexeme in self.keyword_list: 
             token_type = self.keyword_mapping.get(lexeme, TokenType.ID)
@@ -225,8 +226,9 @@ class LexicalAnalyzer:
 
         else: 
 
-            raise ValueError(f"A lexical error has occured. The following lexeme {lexeme} is not recognized.") 
+            raise ValueError(f"A lexical error has been encountered. The following lexeme is not recognized{lexeme}") 
 
+        
         token = Token(token_type, lexeme, line_number)
         token.show_token()
 
