@@ -54,8 +54,6 @@ class Token():
         self.line = line 
         self.type = type
 
-    def show_token(self): 
-        print(f"('{self.lexeme}') - Token Type: {self.type}")
 
         
     

@@ -12,6 +12,7 @@ def main():
     try: 
         simple_lexer = LexicalAnalyzer(args_list[1])
         simple_lexer.scanToken()
+        simple_lexer.displayTokenTable()
 
     except IOError as e: 
         print(e)

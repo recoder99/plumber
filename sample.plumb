@@ -1,4 +1,9 @@
 do set
 getset do if 
-+ do test else 
++ do test else 35 
+- + 35 do get set 
+
+
+
+
 

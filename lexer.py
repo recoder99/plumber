@@ -3,6 +3,7 @@ from tokens import TokenType, Token
 class LexicalAnalyzer:
     def __init__(self, file_path):
         self.file_path = file_path
+        self.token_table = []
     
     
     keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else', 'for', 'while', 'true', 'false']
@@ -18,7 +19,7 @@ class LexicalAnalyzer:
                  'v', 'V', 'w', 'W', 'x', 'X', 
                  'y', 'Y', 'z', 'Z']
         
-    num = [0,1,2,3,4,5,6,7,8,9]
+    num = ['0','1','2','3','4','5','6','7','8','9']
 
     alnum = alpha + num 
 
@@ -96,8 +97,6 @@ class LexicalAnalyzer:
 
 
     def isDigit(self,lexeme): 
-
-        
 
         for char in lexeme: 
 
@@ -230,7 +229,18 @@ class LexicalAnalyzer:
 
         
         token = Token(token_type, lexeme, line_number)
-        token.show_token()
+        self.token_table.append((lexeme, token_type.name))
+
+    def displayTokenTable(self):
+
+        print("Token Table: ")
+        print("{:<15} {:<15}".format("Lexeme", "Token Type"))
+        print("-"*30)
+
+        for lexeme, token_type in self.token_table: 
+
+            print("{:<15} {:<15}".format(lexeme,token_type))
+            print("-"*30)
 
           
 
