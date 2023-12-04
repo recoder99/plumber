@@ -7,7 +7,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else', 'for', 'while', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '<<', '=', '!=', ';', '{', '}']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '>', '<', '<<', '=', '!=', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -72,6 +72,10 @@ class LexicalAnalyzer:
                         continue
 
                     if is_delimiter == False and c in self.operator_list:
+                        if c == ' ':
+                            self.tokenize(token_temp, current_line)
+                            token_temp = ""
+                            continue
                         #tokenize token_temp
                         self.tokenize(token_temp, current_line)
                         token_temp = ""
