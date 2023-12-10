@@ -2,5 +2,6 @@ do set
 getset do if
 # 4234234234fsdjfjksdh
 + do test else 35.25 
-- + 35 do get set $var
+- + == 35 do get set $var
 $var <= 35
+&& || ! 
