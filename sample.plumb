@@ -1,5 +1,6 @@
 do set
-getset do if 
+getset do if
+# 4234234234fsdjfjksdh
 + do test else 35 
 - + 35 do get set $var
 $var << 35

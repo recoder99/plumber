@@ -50,12 +50,28 @@ class LexicalAnalyzer:
                 while True:
                     
                     c = file.read(1)
-                        
+                    
                     if not c:
                         if token_temp: 
                             self.tokenize(token_temp,current_line)
                         break
 
+                    if c == "#":
+                        multiline = False
+                        if file.read(1) == "#":
+                            multiline == True
+                            while file.read(1) != "#":
+                                multiline = True
+                                #ignore everything
+                            if file.read(1) != "#":
+                                print("Expected # for multiline comment")
+                        
+                        if multiline == False:
+                            while file.read(1) != "\n":
+                                multiline = False
+                                #ignore everything
+                        continue
+                            
                     if c == '\"':
                         if not is_string:
                             self.tokenize(token_temp, current_line)
