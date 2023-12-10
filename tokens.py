@@ -30,19 +30,20 @@ class TokenType(Enum):
     VAR = 22
     STRING = 23
     NUMBER = 24
-    HASH = 25
+    FLOAT = 25
+    HASH = 26
 
-    GET = 26
-    SET = 27
-    DO = 28
-    IF = 29
-    ELIF = 30
-    ELSE = 31
-    FOR = 32
-    WHILE = 33
-    TRUE = 34
-    FALSE = 35
-    EOF = 36
+    GET = 27
+    SET = 28
+    DO = 29
+    IF = 30
+    ELIF = 31
+    ELSE = 32
+    FOR = 33
+    WHILE = 34
+    TRUE = 35
+    FALSE = 36
+    EOF = 37
 
     ERROR = 37
 

@@ -126,6 +126,22 @@ class LexicalAnalyzer:
             
         return True    
     
+    def isFloat(self,lexeme): 
+
+        decimal_point = 0 
+
+        for char in lexeme: 
+
+            if char == '.': 
+                decimal_point += 1 
+
+            elif char not in self.num: 
+                return False 
+            
+        return decimal_point == 1 
+
+
+    
     def isIdentifier(self, lexeme): 
 
         
@@ -170,6 +186,9 @@ class LexicalAnalyzer:
 
         elif self.isDigit(lexeme): 
             token_type = TokenType.NUMBER
+
+        elif self.isFloat(lexeme): 
+            token_type = TokenType.FLOAT
 
         elif lexeme == '=': 
             token_type = TokenType.EQUAL
