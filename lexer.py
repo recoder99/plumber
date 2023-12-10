@@ -229,6 +229,9 @@ class LexicalAnalyzer:
         elif lexeme == '/': 
             token_type = TokenType.SLASH
 
+        elif lexeme == '%': 
+            token_type = TokenType.MODULO
+
         elif lexeme == ':': 
             token_type = TokenType.COL
 
