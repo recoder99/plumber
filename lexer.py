@@ -6,8 +6,8 @@ class LexicalAnalyzer:
         self.token_table = []
     
     
-    keyword_list = ['get', 'set', 'do', 'if', 'elif', 'else', 'for', 'while', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '>', '<', '<<', '=', '!=', ';', '{', '}']
+    keyword_list = ['get', 'set', 'do', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '%', '>', '>=', '<', '<=' '<<', '=', '!=', '!',  '&', '|', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -190,11 +190,20 @@ class LexicalAnalyzer:
         elif self.isFloat(lexeme): 
             token_type = TokenType.FLOAT
 
-        elif lexeme == '=': 
+        elif lexeme == '==': 
             token_type = TokenType.EQUAL
 
         elif lexeme == '!=': 
             token_type = TokenType.NEQUAL
+
+        elif lexeme == '!': 
+            token_type = TokenType.NOT
+
+        elif lexeme == '&&': 
+            token_type = TokenType.AND
+
+        elif lexeme == '||': 
+            token_type = TokenType.OR 
 
         elif lexeme == '>': 
             token_type = TokenType.GT

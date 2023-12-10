@@ -25,27 +25,30 @@ class TokenType(Enum):
     LT = 18
     GT_EQUAL = 19
     LT_EQUAL = 20
+    NOT = 21 
+    AND = 22
+    OR = 23
 
-    ID = 21
-    VAR = 22
-    STRING = 23
-    NUMBER = 24
-    FLOAT = 25
-    HASH = 26
+    ID = 24
+    VAR = 25
+    STRING = 26
+    NUMBER = 27
+    FLOAT = 28
+    HASH = 29
 
-    GET = 27
-    SET = 28
-    DO = 29
-    IF = 30
-    ELIF = 31
-    ELSE = 32
-    FOR = 33
-    WHILE = 34
-    TRUE = 35
-    FALSE = 36
-    EOF = 37
+    GET = 30
+    SET = 31
+    DO = 32
+    IF = 33
+    ELIF = 34
+    ELSE = 35
+    FOR = 36
+    WHILE = 37
+    TRUE = 38
+    FALSE = 39
+    EOF = 40
 
-    ERROR = 37
+    ERROR = 41
 
 class Token(): 
 
