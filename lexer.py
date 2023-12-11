@@ -7,7 +7,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '<<', '==', '!=', '!',  '&&', '||', ';', '{', '}']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -264,6 +264,9 @@ class LexicalAnalyzer:
 
         elif lexeme == '<<': 
             token_type = TokenType.ASMT
+
+        elif lexeme == '--':
+            token_type = TokenType.PARAMS
         
         elif self.isIdentifier(lexeme): 
             token_type = TokenType.ID
