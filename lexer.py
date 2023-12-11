@@ -4,6 +4,8 @@ class LexicalAnalyzer:
     def __init__(self, file_path):
         self.file_path = file_path
         self.token_table = []
+        self.invalid_characters = [' ', ',', '.', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '[', ']', '{', '}', '+', '-', '=', '/', '\\', '|', ':', ';', '"', "'", '<', '>', '?', '`', '~']
+
     
     
     keyword_list = ['get', 'set', 'do', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
@@ -150,12 +152,14 @@ class LexicalAnalyzer:
             return False
         
         for char in lexeme[1:]: 
+            
+            if not (char in self.alnum or char == '_'): 
 
-            if char not in self.alnum: 
                 return False 
-        
-        return True 
-    
+
+        return True    
+
+
     def isVar(self, lexeme):
 
         if lexeme[0] == '$': 
