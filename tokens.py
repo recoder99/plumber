@@ -47,13 +47,13 @@ class TokenType(Enum):
     ELSE = 38
     FOR = 39
     WHILE = 40
-    IN = 41 
-    APL = 42 
-    TRUE = 43
-    FALSE = 44
-    EOF = 45
+    IN = 40 
+    APL = 41 
+    TRUE = 42
+    FALSE = 43
+    EOF = 44
 
-    ERROR = 46
+    ERROR = 45
 
 class Token(): 
 

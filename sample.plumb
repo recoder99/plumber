@@ -1,2 +1,5 @@
 do : print << "hello world" 
-do : print << set : filter --ends 
+do : print << set : filter --endswith ".pdf" << get : dir << "C:Users/Jeferson/docs" 
+var1 
+
+

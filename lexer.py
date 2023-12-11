@@ -151,7 +151,7 @@ class LexicalAnalyzer:
         
         for char in lexeme[1:]: 
 
-            if char not in self.alnum or char == '_': 
+            if char not in self.alnum: 
                 return False 
         
         return True 
