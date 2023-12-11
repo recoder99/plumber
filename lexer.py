@@ -8,7 +8,7 @@ class LexicalAnalyzer:
 
     
     
-    keyword_list = ['get', 'set', 'do', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
+    keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
     operator_list = [' ', '\n', ':', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
