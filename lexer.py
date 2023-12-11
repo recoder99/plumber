@@ -34,9 +34,17 @@ class LexicalAnalyzer:
         'get': TokenType.GET, 
         'set': TokenType.SET, 
         'do': TokenType.DO, 
+        'call': TokenType.CALL,
+        'run' : TokenType.RUN,
         'if': TokenType.IF, 
         'elif': TokenType.ELIF, 
-        'else': TokenType.ELSE
+        'else': TokenType.ELSE,
+        'for' : TokenType.FOR, 
+        'while' : TokenType.WHILE,
+        'in' : TokenType.IN,
+        'apl' : TokenType.APL, 
+        'true' : TokenType.TRUE,
+        'false' : TokenType.FALSE 
     }
         token_temp = ""
         is_string = False

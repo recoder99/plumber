@@ -41,19 +41,20 @@ class TokenType(Enum):
     GET = 32
     SET = 33
     DO = 34
-    RUN = 35
-    IF = 36
-    ELIF = 37
-    ELSE = 38
-    FOR = 39
-    WHILE = 40
-    IN = 40 
-    APL = 41 
-    TRUE = 42
-    FALSE = 43
-    EOF = 44
+    CALL = 35
+    RUN = 36
+    IF = 37
+    ELIF = 38
+    ELSE = 39
+    FOR = 40
+    WHILE = 41
+    IN = 42
+    APL = 43 
+    TRUE = 44
+    FALSE = 45
+    EOF = 46
 
-    ERROR = 45
+    ERROR = 47
 
 class Token(): 
 
