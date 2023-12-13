@@ -309,20 +309,20 @@ class LexicalAnalyzer:
             print("{:<15} {:<15}".format(lexeme,token_type))
             print("-"*30)
 
-    def outputTextFile(self): 
+    #def outputTextFile(self): 
 
-        filename = "Symbol_Table.txt"
+     #   filename = "Symbol_Table.txt"
 
-        with open (filename, 'w') as f: 
+      #  with open (filename, 'w') as f: 
 
-            f.write("Symbol Table: \n")
-            f.write("{:<15} {:15}\n".format("Lexeme", "Tokens"))
-            f.write("-"*30 + "\n")
+       #     f.write("Symbol Table: \n")
+        #    f.write("{:<15} {:15}\n".format("Lexeme", "Tokens"))
+         #   f.write("-"*30 + "\n")
 
-            for lexeme, token_type in self.token_table: 
+          #  for lexeme, token_type in self.token_table: 
 
-                f.write("{:<15} {:<15}\n".format(lexeme,token_type))
-                f.write("-"*30 + "\n")
+           #     f.write("{:<15} {:<15}\n".format(lexeme,token_type))
+            #    f.write("-"*30 + "\n")
 
           
 
