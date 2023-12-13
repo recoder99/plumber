@@ -13,6 +13,7 @@ def main():
         simple_lexer = LexicalAnalyzer(args_list[1])
         simple_lexer.scanToken()
         simple_lexer.displayTokenTable()
+        simple_lexer.outputTextFile()
 
     except IOError as e: 
         print(e)

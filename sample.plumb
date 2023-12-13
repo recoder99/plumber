@@ -2,6 +2,3 @@ do : print << "hello world"
 do : print << set : filter --ends_with ".pdf" << get : dir << "C:Users/Jeferson/docs"
  
 
-
-
-
