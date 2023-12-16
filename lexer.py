@@ -9,7 +9,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
+    operator_list = [' ', '\n', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -47,7 +47,7 @@ class LexicalAnalyzer:
         'false' : TokenType.FALSE 
     }
         token_temp = ""
-        is_string = False
+        #is_string = False
         is_delimiter = False
         
         
@@ -57,15 +57,19 @@ class LexicalAnalyzer:
                     
                 current_line = 1 #track the current line number 
                   #for string operations
+                c = file.read(1)
+
                 while True:
-                    
-                    c = file.read(1)
                     
                     if not c:
                         if token_temp: 
                             self.tokenize(token_temp,current_line)
                         break
 
+                    #if the character is a delimiter or a special operator
+                    
+
+                    #if the character is a comment
                     if c == "#":
                         multiline = False
                         if file.read(1) == "#":
@@ -81,46 +85,27 @@ class LexicalAnalyzer:
                                 multiline = False
                                 #ignore everything
                         continue
-                            
-                    if c == '\"':
-                        if not is_string:
-                            self.tokenize(token_temp, current_line)
-                            token_temp = c
-                            is_string  = not is_string
-                        else:
-                            self.tokenize(token_temp + '\"', current_line)
-                            token_temp = ""
-                            is_string = not is_string
+
+                    #if a character is a string
+                    if c == "\"":
+                        string_temp = "\""
+                        c = file.read(1)
+                        while c != "\"":
+                            string_temp += c
+                            c = file.read(1)
+                        self.tokenize(string_temp, current_line)
                         continue
 
-                    if is_string:
-                        token_temp += c
-                        continue
+                    #if a character is a keyword or a constant
+                    #it should iterate until it reaches a delimiter
+                    temp = ""
+                    while c not in self.operator_list:
+                        temp += c
+                        c = file.read(1)
 
-                    if is_delimiter == False and c in self.operator_list:
-                        if c == ' ':
-                            self.tokenize(token_temp, current_line)
-                            token_temp = ""
-                            continue
-                        #tokenize token_temp
-                        self.tokenize(token_temp, current_line)
-                        token_temp = ""
-                        is_delimiter = True
 
-                    if is_delimiter:
-                        temp = token_temp + c
-                        if temp in self.operator_list:
-                            token_temp += c
-                        else:
-                            is_delimiter = False
-                            self.tokenize(token_temp, current_line)
-                            token_temp = c 
-                        continue
 
-                    token_temp += c
 
-                    if c == '\n': 
-                        current_line += 1
 
         except IOError as e:
             print(e)
