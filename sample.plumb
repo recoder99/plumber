@@ -1,4 +1,12 @@
-do : print << "hello world" 
+do : print << "hello world"#test
 do : print << set : filter --ends_with ".pdf" << get : dir << "C:Users/Jeferson/docs"
-
+##
+fjsdfklfjlsdf
+dsfsd
+fjsdfklfjlsdff
+sdfs
+adf
+sdfssdaf
+sdfssdafsdf
+sdfs ##
 $var <<35+69 

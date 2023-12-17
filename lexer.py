@@ -82,6 +82,7 @@ class LexicalAnalyzer:
                             while file.read(1) != "\n":
                                 multiline = False
                                 #ignore everything
+                        c = file.read(1)
                         continue
 
                     #if a character is a string
