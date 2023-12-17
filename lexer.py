@@ -10,6 +10,7 @@ class LexicalAnalyzer:
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
     operator_list = [' ', '\n', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
+    char_ignore = [' ', '#']
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
                  'd', 'D', 'e', 'E', 'f', 'F', 
@@ -66,9 +67,6 @@ class LexicalAnalyzer:
                             self.tokenize(token_temp,current_line)
                         break
 
-                    #if the character is a delimiter or a special operator
-                    
-
                     #if the character is a comment
                     if c == "#":
                         multiline = False
@@ -93,8 +91,27 @@ class LexicalAnalyzer:
                         while c != "\"":
                             string_temp += c
                             c = file.read(1)
+                        string_temp += c
                         self.tokenize(string_temp, current_line)
+
+                        #proceeds to next character after tokenization
+                        c = file.read(1)
                         continue
+
+                    #if the character is a delimiter or a special operator
+                    if c in self.operator_list:
+                        i = 0
+                        c_temp = ""
+
+                        while c in self.operator_list:
+                            if (c + c_temp) in self.operator_list:
+                                    c_temp += c
+                                    c = file.read(1)
+                            else:
+                                break
+                        self.tokenize(c_temp, current_line)       
+                        continue                
+                        
 
                     #if a character is a keyword or a constant
                     #it should iterate until it reaches a delimiter
@@ -102,6 +119,8 @@ class LexicalAnalyzer:
                     while c not in self.operator_list:
                         temp += c
                         c = file.read(1)
+                    
+                    self.tokenize(temp, current_line)
 
 
 
@@ -294,20 +313,20 @@ class LexicalAnalyzer:
             print("{:<15} {:<15}".format(lexeme,token_type))
             print("-"*30)
 
-    #def outputTextFile(self): 
+    def outputTextFile(self): 
 
-     #   filename = "Symbol_Table.txt"
+       filename = "Symbol_Table.txt"
 
-      #  with open (filename, 'w') as f: 
+       with open (filename, 'w') as f: 
 
-       #     f.write("Symbol Table: \n")
-        #    f.write("{:<15} {:15}\n".format("Lexeme", "Tokens"))
-         #   f.write("-"*30 + "\n")
+           f.write("Symbol Table: \n")
+           f.write("{:<15} {:15}\n".format("Lexeme", "Tokens"))
+           f.write("-"*30 + "\n")
 
-          #  for lexeme, token_type in self.token_table: 
+           for lexeme, token_type in self.token_table: 
 
-           #     f.write("{:<15} {:<15}\n".format(lexeme,token_type))
-            #    f.write("-"*30 + "\n")
+               f.write("{:<15} {:<15}\n".format(lexeme,token_type))
+               f.write("-"*30 + "\n")
 
           
 
