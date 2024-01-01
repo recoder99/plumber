@@ -10,15 +10,27 @@ def main():
     #end of debug settings
 
     args_list = sys.argv
+
     if len(args_list) != 2 and not debug: 
          print("Usage: python plumber.py <input file>")
          sys.exit(1)
 
+    if args_list[1] == "--shell":
+        while True:
+            str = input("Plumber shell << ") + "\n"
+            lex = LexicalAnalyzer(str)
+            lex.scanToken()
+            lex.displayTokenTable()
+
     try: 
         if not debug:
-            simple_lexer = LexicalAnalyzer(args_list[1])
+            f = open(args_list[1], "r")
+            file_str = f.read()
+            simple_lexer = LexicalAnalyzer(file_str)
         else:
-            simple_lexer = LexicalAnalyzer(debug_path)
+            f = open(debug_path, "r")
+            simple_lexer = LexicalAnalyzer(f.read())
+        
         simple_lexer.scanToken()
         simple_lexer.displayTokenTable()
         simple_lexer.outputTextFile()

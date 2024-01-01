@@ -1,8 +1,36 @@
 from tokens import TokenType, Token
 
+
+class StringIterator:
+
+    def __init__(self, string):
+        self.string = string
+        self.str_len = len(string)
+
+    itr = -1
+
+    def reset_itr(self):
+        self.itr = -1
+
+    def read_itr(self):
+        self.itr += 1
+        if not self.check_out_of_range():
+            return self.string[self.itr]
+        else:
+            print("Index out of range")
+    
+    def check_out_of_range(self):
+        if self.itr >= self.str_len:
+            return True
+        else:
+            return False
+    
+
+
 class LexicalAnalyzer:
-    def __init__(self, file_path):
-        self.file_path = file_path
+
+    def __init__(self, string):
+        self.string = string
         self.token_table = []
         self.invalid_characters = [' ', ',', '.', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '[', ']', '{', '}', '+', '-', '=', '/', '\\', '|', ':', ';', '"', "'", '<', '>', '?', '`', '~']
 
@@ -50,86 +78,75 @@ class LexicalAnalyzer:
         token_temp = ""
         #is_string = False
         is_delimiter = False
-        
-        
-
-        try:
-            with open(self.file_path, 'r') as file:
                     
-                current_line = 1 #track the current line number 
-                  #for string operations
-                c = file.read(1)
+        current_line = 1 #track the current line number 
+        #for string operations
+        str_file = StringIterator(self.string)
 
-                while True:
-                    
-                    if not c:
-                        if token_temp: 
-                            self.tokenize(token_temp,current_line)
-                        break
+        c = str_file.read_itr()
 
-                    #if the character is a comment
-                    if c == "#":
+        while True:
+            
+            if c == None:
+                if token_temp: 
+                    self.tokenize(token_temp,current_line)
+                break
+
+            #if the character is a comment
+            if c == "#":
+                multiline = False
+                if str_file.read_itr() == "#":
+                    multiline = True
+                    while str_file.read_itr() != "#":
+                        multiline = True
+                        #ignore everything
+                    if str_file.read_itr() != "#":
+                        print("Expected # for multiline comment")
+                
+                if multiline == False:
+                    while str_file.read_itr() != "\n" and not str_file.check_out_of_range():
                         multiline = False
-                        if file.read(1) == "#":
-                            multiline = True
-                            while file.read(1) != "#":
-                                multiline = True
-                                #ignore everything
-                            if file.read(1) != "#":
-                                print("Expected # for multiline comment")
-                        
-                        if multiline == False:
-                            while file.read(1) != "\n":
-                                multiline = False
-                                #ignore everything
-                        c = file.read(1)
-                        continue
+                        #ignore everything
+                c = str_file.read_itr()
+                continue
 
-                    #if a character is a string
-                    if c == "\"":
-                        string_temp = "\""
-                        c = file.read(1)
-                        while c != "\"":
-                            string_temp += c
-                            c = file.read(1)
-                        string_temp += c
-                        self.tokenize(string_temp, current_line)
+            #if a character is a string
+            if c == "\"":
+                string_temp = "\""
+                c = str_file.read_itr()
+                while c != "\"":
+                    string_temp += c
+                    c = str_file.read_itr()
+                string_temp += c
+                self.tokenize(string_temp, current_line)
 
-                        #proceeds to next character after tokenization
-                        c = file.read(1)
-                        continue
+                #proceeds to next character after tokenization
+                c = str_file.read_itr()
+                continue
 
-                    #if the character is a delimiter or a special operator
-                    if c in self.operator_list:
-                        i = 0
-                        c_temp = ""
+            #if the character is a delimiter or a special operator
+            if c in self.operator_list:
+                i = 0
+                c_temp = ""
 
-                        while c in self.operator_list:
-                            if (c + c_temp) in self.operator_list:
-                                    c_temp += c
-                                    c = file.read(1)
-                            else:
-                                break
-                        self.tokenize(c_temp, current_line)       
-                        continue                
-                        
+                while c in self.operator_list:
+                    if (c + c_temp) in self.operator_list:
+                            c_temp += c
+                            c = str_file.read_itr()
+                    else:
+                        break
+                self.tokenize(c_temp, current_line)       
+                continue                
+                
 
-                    #if a character is a keyword or a constant
-                    #it should iterate until it reaches a delimiter
-                    temp = ""
-                    while c not in self.operator_list:
-                        temp += c
-                        c = file.read(1)
-                    
-                    self.tokenize(temp, current_line)
-
-
-
-
-
-        except IOError as e:
-            print(e)
-
+            #if a character is a keyword or a constant
+            #it should iterate until it reaches a delimiter
+            temp = ""
+            while c not in self.operator_list and c != None:
+                temp += c
+                c = str_file.read_itr()
+            
+            self.tokenize(temp, current_line)
 
     def isDigit(self,lexeme): 
 
