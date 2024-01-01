@@ -17,7 +17,7 @@ class StringIterator:
         if not self.check_out_of_range():
             return self.string[self.itr]
         else:
-            print("Index out of range")
+            return None
     
     def check_out_of_range(self):
         if self.itr >= self.str_len:
