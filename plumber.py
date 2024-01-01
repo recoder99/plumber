@@ -17,7 +17,11 @@ def main():
 
     if args_list[1] == "--shell":
         while True:
-            str = input("Plumber shell << ") + "\n"
+            str = input("Plumber shell << ")
+            if str == "":
+                continue
+            else:
+                str += "\n"
             lex = LexicalAnalyzer(str)
             lex.scanToken()
             lex.displayTokenTable()
