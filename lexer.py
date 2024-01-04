@@ -3,18 +3,23 @@ from tokens import TokenType, Token
 
 class StringIterator:
 
-    def __init__(self, string):
+    def __init__(self, string : str):
         self.string = string
         self.str_len = len(string)
 
     itr = -1
+    current_line = 1
+    newline = False
 
     def reset_itr(self):
         self.itr = -1
+        self.current_line = 1
 
     def read_itr(self):
         self.itr += 1
         if not self.check_out_of_range():
+            if self.string[self.itr] == '\n':
+                self.current_line += 1
             return self.string[self.itr]
         else:
             return None
@@ -24,20 +29,24 @@ class StringIterator:
             return True
         else:
             return False
+        
+    def get_current_line(self) -> int:
+        return self.current_line
     
 
 
 class LexicalAnalyzer:
 
-    def __init__(self, string):
+    def __init__(self, string : str):
         self.string = string
         self.token_table = []
+        self.token_list = []
         self.invalid_characters = [' ', ',', '.', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '[', ']', '{', '}', '+', '-', '=', '/', '\\', '|', ':', ';', '"', "'", '<', '>', '?', '`', '~']
 
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
-    operator_list = [' ', '\n', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
+    operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
     char_ignore = [' ', '#'] #useless for now
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
@@ -86,12 +95,10 @@ class LexicalAnalyzer:
         c = str_file.read_itr()
 
         while True:
-            
             if c == None:
                 if token_temp: 
-                    self.tokenize(token_temp,current_line)
+                    self.tokenize(token_temp, str_file.get_current_line())
                 break
-
             #if the character is a comment
             if c == "#":
                 multiline = False
@@ -114,14 +121,17 @@ class LexicalAnalyzer:
             if c == "\"":
                 string_temp = "\""
                 c = str_file.read_itr()
-                while c != "\"":
+                while c != "\"" and c != None:
+                    if c == "\n":
+                        break
                     string_temp += c
                     c = str_file.read_itr()
-                string_temp += c
-                self.tokenize(string_temp, current_line)
 
-                #proceeds to next character after tokenization
+                if c == "\"":
+                    string_temp += c
+                self.tokenize(string_temp, str_file.get_current_line())
                 c = str_file.read_itr()
+                #proceeds to next character after tokenization
                 continue
 
             #if the character is a delimiter or a special operator
@@ -130,12 +140,13 @@ class LexicalAnalyzer:
                 c_temp = ""
 
                 while c in self.operator_list:
-                    if (c + c_temp) in self.operator_list:
+                    comp = c_temp + c
+                    if comp in self.operator_list:
                             c_temp += c
                             c = str_file.read_itr()
                     else:
                         break
-                self.tokenize(c_temp, current_line)       
+                self.tokenize(c_temp, str_file.get_current_line())       
                 continue                
                 
 
@@ -146,7 +157,7 @@ class LexicalAnalyzer:
                 temp += c
                 c = str_file.read_itr()
             
-            self.tokenize(temp, current_line)
+            self.tokenize(temp, str_file.get_current_line())
 
     def isDigit(self,lexeme): 
 
@@ -205,7 +216,7 @@ class LexicalAnalyzer:
 
 
 
-    def tokenize(self, lexeme, line_number):
+    def tokenize(self, lexeme, line_number : int):
 
         while lexeme and lexeme[0] == ' ': 
             lexeme = lexeme[1:]
@@ -313,13 +324,17 @@ class LexicalAnalyzer:
             token_type = TokenType.EOF
 
         else: 
-
-            raise ValueError(f"A lexical error has been encountered. The following lexeme is not recognized{lexeme}") 
+            token_type = TokenType.ERROR
+            print(f"A lexical error has been encountered. The following lexeme is not recognized{lexeme}") 
 
         
         token = Token(token_type, lexeme, line_number)
         self.token_table.append((lexeme, token_type.name))
+        self.token_list.append(token)
 
+    def get_token_list(self):
+        return self.token_list
+    
     def displayTokenTable(self):
 
         print("Token Table: ")

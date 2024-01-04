@@ -1,4 +1,5 @@
 from lexer import LexicalAnalyzer
+from parser_class import Parser
 import sys
 
 def main():
@@ -15,7 +16,7 @@ def main():
          print("Usage: python plumber.py <input file>")
          sys.exit(1)
 
-    if args_list[1] == "--shell":
+    if not debug and args_list[1] == "--shell":
         while True:
             str = input("Plumber shell << ")
             if str == "":
@@ -24,11 +25,13 @@ def main():
                 str += "\n"
             lex = LexicalAnalyzer(str)
             lex.scanToken()
-            lex.displayTokenTable()
+            Parser(lex.get_token_list()).ParseToken()
+
 
     try: 
         if not debug:
-            f = open(args_list[1], "r")
+            filepath = args_list[1]
+            f = open(filepath, "r")
             file_str = f.read()
             simple_lexer = LexicalAnalyzer(file_str)
         else:
@@ -36,8 +39,8 @@ def main():
             simple_lexer = LexicalAnalyzer(f.read())
         
         simple_lexer.scanToken()
-        simple_lexer.displayTokenTable()
-        simple_lexer.outputTextFile()
+        parse = Parser(simple_lexer.get_token_list())
+        parse.ParseToken()
 
     except IOError as e: 
         print(e)

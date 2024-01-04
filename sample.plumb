@@ -1,5 +1,8 @@
+if : $x >= 3 {do: something}
 do : print << "hello world"#test
 do : print << set : filter --ends_with ".pdf" << get : dir << "C:Users/Jeferson/docs"
+@@
+
 ##
 fjsdfklfjlsdf
 dsfsd
@@ -9,4 +12,4 @@ adf
 sdfssdaf
 sdfssdafsdf
 sdfs ##
-$var <<35+69 #FUCK
+$var <<35+68 #FUCK

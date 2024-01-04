@@ -58,11 +58,19 @@ class TokenType(Enum):
 
 class Token(): 
 
-    def __init__(self, type, lexeme, line): 
-        
+    def __init__(self, type, lexeme, line : int): 
         self.lexeme = lexeme
-        self.line = line 
+        self.line = line
         self.type = type
+    
+    def get_lexeme(self):
+        return self.lexeme
+    
+    def get_type(self):
+        return self.type
+
+    def get_line(self) -> int:
+        return self.line
 
 
         
