@@ -30,14 +30,14 @@ class Parser:
 
        with open (filename, 'w') as f: 
 
-        f.write("Token Table: ")
-        f.write("{}\t{}\t{} ".format("Line", "Lexeme", "Tokens"))
-        f.write("-"*30)
+        f.write("Token Table: \n")
+        f.write("{:<15} {:<15} {:<15}\n".format("Line", "Lexeme", "Tokens"))
+        f.write("-"*30 + "\n")
 
         for i in self.token_list:
             line = i.get_line()
-            f.write("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
-            f.write("-"*30)
+            f.write("{:<15} {:<15} {:<15}\n".format(line, i.get_lexeme(), i.get_type()))
+            f.write("-"*30 + "\n")
 
 
 

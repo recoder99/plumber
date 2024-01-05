@@ -1,61 +1,95 @@
-Symbol Table: 
-Lexeme          Tokens         
+Token Table: 
+Line            Lexeme          Tokens         
 ------------------------------
-do              DO             
+1               if              TokenType.IF   
 ------------------------------
-:               COL            
+1               :               TokenType.COL  
 ------------------------------
-print           ID             
+1               $x              TokenType.VAR  
 ------------------------------
-<<              ASMT           
+1               >=              TokenType.GT_EQUAL
 ------------------------------
-"hello world"   STRING         
+1               3               TokenType.NUMBER
 ------------------------------
-do              DO             
+1               {               TokenType.LCBRACK
 ------------------------------
-:               COL            
+1               do              TokenType.DO   
 ------------------------------
-print           ID             
+1               :               TokenType.COL  
 ------------------------------
-<<              ASMT           
+1               something       TokenType.ID   
 ------------------------------
-set             SET            
+2               }               TokenType.RCBRACK
 ------------------------------
-:               COL            
+2               
+               TokenType.NEWLINE
 ------------------------------
-filter          ID             
+2               do              TokenType.DO   
 ------------------------------
---              PARAMS         
+2               :               TokenType.COL  
 ------------------------------
-ends_with       ID             
+2               print           TokenType.ID   
 ------------------------------
-".pdf"          STRING         
+2               <<              TokenType.ASMT 
 ------------------------------
-<<              ASMT           
+2               "hello world"   TokenType.STRING
 ------------------------------
-get             GET            
+3               do              TokenType.DO   
 ------------------------------
-:               COL            
+3               :               TokenType.COL  
 ------------------------------
-dir             ID             
+3               print           TokenType.ID   
 ------------------------------
-<<              ASMT           
+3               <<              TokenType.ASMT 
 ------------------------------
-"C:Users/Jeferson/docs" STRING         
+3               set             TokenType.SET  
 ------------------------------
-
-               NEWLINE        
+3               :               TokenType.COL  
 ------------------------------
-
-               NEWLINE        
+3               filter          TokenType.ID   
 ------------------------------
-$var            VAR            
+3               --              TokenType.PARAMS
 ------------------------------
-<<              ASMT           
+3               ends_with       TokenType.ID   
 ------------------------------
-35              NUMBER         
+3               ".pdf"          TokenType.STRING
 ------------------------------
-+               PLUS           
+3               <<              TokenType.ASMT 
 ------------------------------
-69              NUMBER         
+3               get             TokenType.GET  
+------------------------------
+3               :               TokenType.COL  
+------------------------------
+3               dir             TokenType.ID   
+------------------------------
+3               <<              TokenType.ASMT 
+------------------------------
+3               "C:Users/Jeferson/docs" TokenType.STRING
+------------------------------
+4               
+               TokenType.NEWLINE
+------------------------------
+5               @@              TokenType.ERROR
+------------------------------
+6               
+               TokenType.NEWLINE
+------------------------------
+6               
+               TokenType.NEWLINE
+------------------------------
+15              
+               TokenType.NEWLINE
+------------------------------
+15              $var            TokenType.VAR  
+------------------------------
+15              <<              TokenType.ASMT 
+------------------------------
+15              35              TokenType.NUMBER
+------------------------------
+15              +               TokenType.PLUS 
+------------------------------
+15              68              TokenType.NUMBER
+------------------------------
+17              
+               TokenType.NEWLINE
 ------------------------------

@@ -41,6 +41,7 @@ def main():
         simple_lexer.scanToken()
         parse = Parser(simple_lexer.get_token_list())
         parse.ParseToken()
+        parse.outputTextFile()
 
     except IOError as e: 
         print(e)
