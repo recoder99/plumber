@@ -22,6 +22,23 @@ class Parser:
             line = i.get_line()
             print("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
             print("-"*30)
+    
+    
+    def outputTextFile(self): 
+
+       filename = "Symbol_Table.txt"
+
+       with open (filename, 'w') as f: 
+
+        f.write("Token Table: ")
+        f.write("{}\t{}\t{} ".format("Line", "Lexeme", "Tokens"))
+        f.write("-"*30)
+
+        for i in self.token_list:
+            line = i.get_line()
+            f.write("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
+            f.write("-"*30)
+
 
 
     

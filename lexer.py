@@ -45,7 +45,7 @@ class LexicalAnalyzer:
 
     
     
-    keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'true', 'false']
+    keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'applet', 'true', 'false', '$input']
     operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}']
     char_ignore = [' ', '#'] #useless for now
 
@@ -77,14 +77,16 @@ class LexicalAnalyzer:
         'call': TokenType.CALL,
         'run' : TokenType.RUN,
         'if': TokenType.IF, 
-        'elif': TokenType.ELIF, 
+        'elif': TokenType.ELIF,   
         'else': TokenType.ELSE,
         'for' : TokenType.FOR, 
         'while' : TokenType.WHILE,
         'in' : TokenType.IN,
-        'apl' : TokenType.APL, 
+        'apl' : TokenType.APL,
+        'applet' : TokenType.APL, 
         'true' : TokenType.TRUE,
-        'false' : TokenType.FALSE 
+        'false' : TokenType.FALSE,
+        '$input' : TokenType.INPUT
     }
         token_temp = ""
         #is_string = False
@@ -205,8 +207,7 @@ class LexicalAnalyzer:
 
     def isVar(self, lexeme):
 
-        
-        if lexeme[0] == '$':
+        if lexeme[0] == '$' and len(lexeme) > 1:
 
             if lexeme[1] in self.valid:
 
@@ -217,7 +218,7 @@ class LexicalAnalyzer:
                         return False
                  
                 return True    
-
+        
 
     def tokenize(self, lexeme, line_number : int):
 
@@ -305,9 +306,6 @@ class LexicalAnalyzer:
         elif lexeme == '.': 
             token_type = TokenType.DOT
 
-        elif lexeme == '"':
-            token_type = TokenType.QUOTE
-
         elif lexeme == '#':
             token_type = TokenType.HASH
 
@@ -332,37 +330,14 @@ class LexicalAnalyzer:
 
         
         token = Token(token_type, lexeme, line_number)
-        self.token_table.append((lexeme, token_type.name))
+        self.token_table.append((line_number, lexeme, token_type.name))
         self.token_list.append(token)
 
     def get_token_list(self):
         return self.token_list
     
-    def displayTokenTable(self):
-
-        print("Token Table: ")
-        print("{:<15} {:<15}".format("Lexeme", "Tokens"))
-        print("-"*30)
-
-        for lexeme, token_type in self.token_table: 
-
-            print("{:<15} {:<15}".format(lexeme,token_type))
-            print("-"*30)
-
-    def outputTextFile(self): 
-
-       filename = "Symbol_Table.txt"
-
-       with open (filename, 'w') as f: 
-
-           f.write("Symbol Table: \n")
-           f.write("{:<15} {:15}\n".format("Lexeme", "Tokens"))
-           f.write("-"*30 + "\n")
-
-           for lexeme, token_type in self.token_table: 
-
-               f.write("{:<15} {:<15}\n".format(lexeme,token_type))
-               f.write("-"*30 + "\n")
+    
+    
 
           
 

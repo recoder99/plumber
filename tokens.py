@@ -52,9 +52,10 @@ class TokenType(Enum):
     APL = 43 
     TRUE = 44
     FALSE = 45
-    EOF = 46
+    INPUT = 46
+    EOF = 47
 
-    ERROR = 47
+    ERROR = 48
 
 class Token(): 
 
