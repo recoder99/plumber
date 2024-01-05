@@ -1,6 +1,7 @@
 from lexer import LexicalAnalyzer
 from parser_class import Parser
 import sys
+import os 
 
 def main():
 
@@ -15,6 +16,20 @@ def main():
     if len(args_list) != 2 and not debug: 
          print("Usage: python plumber.py <input file>")
          sys.exit(1)
+    
+    input_file = args_list[1]
+
+    #check if file ends with plumb
+
+    if not input_file.endswith(".plumb"):
+        print("Error: Invalid file type. Try using .plumb")
+        sys.exit(1)
+
+    #check if file exist in the system
+
+    if not os.path.isfile(input_file):
+        print("Error: File '{}' is not found!".format(input_file))
+        sys.exit(1)
 
     if not debug and args_list[1] == "--shell":
         while True:
