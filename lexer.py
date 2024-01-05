@@ -62,6 +62,8 @@ class LexicalAnalyzer:
     num = ['0','1','2','3','4','5','6','7','8','9']
 
     alnum = alpha + num 
+    
+    valid = alpha + ['_'] 
 
     
 
@@ -188,9 +190,9 @@ class LexicalAnalyzer:
     def isIdentifier(self, lexeme): 
 
         
-        if not lexeme[0] in self.alnum or lexeme[0] == '_': 
+        if not (lexeme[0] in self.valid): 
 
-            return False
+            return False 
         
         for char in lexeme[1:]: 
             
@@ -204,16 +206,17 @@ class LexicalAnalyzer:
     def isVar(self, lexeme):
 
         
-        if lexeme[0] == '$': 
+        if lexeme[0] == '$':
 
-            for char in lexeme[1:]: 
+            if lexeme[1] in self.valid:
 
-                if char not in self.alnum or char == '_': 
+                for char in lexeme[2:]: 
 
-                    return False 
-                
-            return True 
+                    if not (char in self.alnum or char == '_'): 
 
+                        return False
+                 
+                return True    
 
 
     def tokenize(self, lexeme, line_number : int):
