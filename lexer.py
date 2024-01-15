@@ -46,7 +46,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'applet', 'true', 'false', '$input']
-    operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']','(',')', ',']
+    operator_list = [' ', '\t', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']','(',')', ',']
     char_ignore = [' ', '#'] #useless for now
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
@@ -222,7 +222,7 @@ class LexicalAnalyzer:
 
     def tokenize(self, lexeme, line_number : int):
 
-        while lexeme and lexeme[0] == ' ': 
+        while lexeme and (lexeme[0] == ' ' or lexeme[0]== '\t'): 
             lexeme = lexeme[1:]
 
         if not lexeme:

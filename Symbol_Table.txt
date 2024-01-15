@@ -1,29 +1,9 @@
 Token Table: 
 Line            Lexeme          Tokens         
 ------------------------------
-1               (               TokenType.LPAREN
-------------------------------
-1               (               TokenType.LPAREN
-------------------------------
 1               $x              TokenType.VAR  
 ------------------------------
 1               +               TokenType.PLUS 
 ------------------------------
-1               $y              TokenType.VAR  
-------------------------------
-1               )               TokenType.RPAREN
-------------------------------
-1               +               TokenType.PLUS 
-------------------------------
-1               (               TokenType.LPAREN
-------------------------------
-1               $y              TokenType.VAR  
-------------------------------
-1               +               TokenType.PLUS 
-------------------------------
-1               $z              TokenType.VAR  
-------------------------------
-1               )               TokenType.RPAREN
-------------------------------
-1               )               TokenType.RPAREN
+1               2               TokenType.NUMBER
 ------------------------------
