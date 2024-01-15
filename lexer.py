@@ -23,6 +23,11 @@ class StringIterator:
             return self.string[self.itr]
         else:
             return None
+        
+    def peek_itr(self):
+        if self.string[self.itr] == None:
+            return None
+        return self.string[self.itr]
     
     def check_out_of_range(self):
         if self.itr >= self.str_len:
@@ -46,7 +51,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'applet', 'true', 'false', '$input']
-    operator_list = [' ', '\t', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']','(',')', ',']
+    operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']' '(',')', ',']
     char_ignore = [' ', '#'] #useless for now
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
@@ -106,13 +111,25 @@ class LexicalAnalyzer:
             #if the character is a comment
             if c == "#":
                 multiline = False
+                eof = False
                 if str_file.read_itr() == "#":
                     multiline = True
-                    while str_file.read_itr() != "#":
-                        multiline = True
+                    while str_file.peek_itr() is not None:
+                        if str_file.read_itr() == "#":
+                            break
+
+                        if str_file.check_out_of_range() == True:
+                            eof = True
+                            print("Expected Multiline Comment Terminator '##'")
+                            break
+                        
+                    if eof:
+                        continue
                         #ignore everything
+                    
                     if str_file.read_itr() != "#":
-                        print("Expected # for multiline comment")
+                        print("Expected Another # for multiline comment")
+                        continue
                 
                 if multiline == False:
                     while str_file.read_itr() != "\n" and not str_file.check_out_of_range():
@@ -222,7 +239,7 @@ class LexicalAnalyzer:
 
     def tokenize(self, lexeme, line_number : int):
 
-        while lexeme and (lexeme[0] == ' ' or lexeme[0]== '\t'): 
+        while lexeme and lexeme[0] == ' ': 
             lexeme = lexeme[1:]
 
         if not lexeme:
