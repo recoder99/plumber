@@ -1,9 +1,100 @@
 Token Table: 
 Line            Lexeme          Tokens         
 ------------------------------
-1               $x              TokenType.VAR  
+3               
+               TokenType.NEWLINE
 ------------------------------
-1               +               TokenType.PLUS 
+3               my_str          TokenType.ID   
 ------------------------------
-1               2               TokenType.NUMBER
+3               =               TokenType.ERROR
+------------------------------
+3               "Hello this Is an Example With cased letters" TokenType.STRING
+------------------------------
+5               
+               TokenType.NEWLINE
+------------------------------
+5               
+               TokenType.NEWLINE
+------------------------------
+8               
+               TokenType.NEWLINE
+------------------------------
+9               words           TokenType.ID   
+------------------------------
+9               =               TokenType.ERROR
+------------------------------
+9               [               TokenType.LBRACK
+------------------------------
+9               word.lower      TokenType.ERROR
+------------------------------
+9               (               TokenType.LPAREN
+------------------------------
+9               )               TokenType.RPAREN
+------------------------------
+9               for             TokenType.FOR  
+------------------------------
+9               word            TokenType.ID   
+------------------------------
+9               in              TokenType.IN   
+------------------------------
+9               my_str.split    TokenType.ERROR
+------------------------------
+9               (               TokenType.LPAREN
+------------------------------
+9               )               TokenType.RPAREN
+------------------------------
+10              ]               TokenType.RBRACK
+------------------------------
+11              
+               TokenType.NEWLINE
+------------------------------
+11              
+               TokenType.NEWLINE
+------------------------------
+12              words.sort      TokenType.ERROR
+------------------------------
+12              (               TokenType.LPAREN
+------------------------------
+13              )               TokenType.RPAREN
+------------------------------
+14              
+               TokenType.NEWLINE
+------------------------------
+14              
+               TokenType.NEWLINE
+------------------------------
+16              
+               TokenType.NEWLINE
+------------------------------
+16              print           TokenType.ID   
+------------------------------
+16              (               TokenType.LPAREN
+------------------------------
+16              "The sorted words are:" TokenType.STRING
+------------------------------
+17              )               TokenType.RPAREN
+------------------------------
+17              
+               TokenType.NEWLINE
+------------------------------
+17              for             TokenType.FOR  
+------------------------------
+17              word            TokenType.ID   
+------------------------------
+17              in              TokenType.IN   
+------------------------------
+17              words           TokenType.ID   
+------------------------------
+18              :               TokenType.COL  
+------------------------------
+18              
+               TokenType.NEWLINE
+------------------------------
+18              print           TokenType.ID   
+------------------------------
+18              (               TokenType.LPAREN
+------------------------------
+18              word            TokenType.ID   
+------------------------------
+18              )               TokenType.RPAREN
 ------------------------------
