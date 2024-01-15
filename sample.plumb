@@ -1,16 +1,19 @@
-if : $x >= 3 {do: something}
-do : print << "hello world"#test
-do : print << set : filter --ends_with ".pdf" << get : dir << "C:Users/Jeferson/docs"
-@@
+# Multiplication table (from 1 to 10) in Python
 
-##
-fjsdfklfjlsdf
-dsfsd
-fjsdfklfjlsdff
-sdfs
-adf
-sdfssdaf
-sdfssdafsdf
-sdfs ##
-$var <<35+68 #FUCK
-34 + 39 < 69
+num = 12
+
+# To take input from the user
+# num = int(input("Display multiplication table of? "))
+
+# Iterate 10 times from i = 1 to 10
+for i in range(1, 11):
+   print(num, 'x', i, '=', num*i)
+
+## jeferson escueta 
+ignore me mf 
+pls
+pls
+## 
+
+do : print << "fuck mam d" 
+

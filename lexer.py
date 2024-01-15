@@ -46,7 +46,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'applet', 'true', 'false', '$input']
-    operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '(',')']
+    operator_list = [' ', '\n', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']' '(',')', ',']
     char_ignore = [' ', '#'] #useless for now
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
@@ -173,7 +173,7 @@ class LexicalAnalyzer:
             
         return True    
     
-    def isFloat(self,lexeme): 
+    def isFloat(self,lexeme):   
 
         decimal_point = 0 
 
@@ -300,11 +300,17 @@ class LexicalAnalyzer:
         elif lexeme == '}': 
             token_type = TokenType.RCBRACK
 
+        elif lexeme == '[': 
+            token_type = TokenType.LBRACK
+        
+        elif lexeme == ']': 
+            token_type = TokenType.RBRACK
+
         elif lexeme == ';': 
             token_type = TokenType.SEMICOL
 
-        elif lexeme == '.': 
-            token_type = TokenType.DOT
+        elif lexeme == ',': 
+            token_type = TokenType.COMMA
 
         elif lexeme == '#':
             token_type = TokenType.HASH
