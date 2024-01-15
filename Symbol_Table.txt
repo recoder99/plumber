@@ -1,96 +1,29 @@
 Token Table: 
 Line            Lexeme          Tokens         
 ------------------------------
-3               
-               TokenType.NEWLINE
+1               (               TokenType.LPAREN
 ------------------------------
-3               num             TokenType.ID   
+1               (               TokenType.LPAREN
 ------------------------------
-3               =               TokenType.ERROR
+1               $x              TokenType.VAR  
 ------------------------------
-4               12              TokenType.NUMBER
+1               +               TokenType.PLUS 
 ------------------------------
-5               
-               TokenType.NEWLINE
+1               $y              TokenType.VAR  
 ------------------------------
-5               
-               TokenType.NEWLINE
+1               )               TokenType.RPAREN
 ------------------------------
-8               
-               TokenType.NEWLINE
+1               +               TokenType.PLUS 
 ------------------------------
-9               for             TokenType.FOR  
+1               (               TokenType.LPAREN
 ------------------------------
-9               i               TokenType.ID   
+1               $y              TokenType.VAR  
 ------------------------------
-9               in              TokenType.IN   
+1               +               TokenType.PLUS 
 ------------------------------
-9               range(1         TokenType.ERROR
+1               $z              TokenType.VAR  
 ------------------------------
-9               ,               TokenType.COMMA
+1               )               TokenType.RPAREN
 ------------------------------
-9               11              TokenType.NUMBER
-------------------------------
-9               )               TokenType.RPAREN
-------------------------------
-10              :               TokenType.COL  
-------------------------------
-10              
-               TokenType.NEWLINE
-------------------------------
-10              print(num       TokenType.ERROR
-------------------------------
-10              ,               TokenType.COMMA
-------------------------------
-10              'x'             TokenType.ERROR
-------------------------------
-10              ,               TokenType.COMMA
-------------------------------
-10              i               TokenType.ID   
-------------------------------
-10              ,               TokenType.COMMA
-------------------------------
-10              '               TokenType.ERROR
-------------------------------
-10              =               TokenType.ERROR
-------------------------------
-10              '               TokenType.ERROR
-------------------------------
-10              ,               TokenType.COMMA
-------------------------------
-10              num             TokenType.ID   
-------------------------------
-10              *               TokenType.STAR 
-------------------------------
-10              i               TokenType.ID   
-------------------------------
-11              )               TokenType.RPAREN
-------------------------------
-12              
-               TokenType.NEWLINE
-------------------------------
-12              
-               TokenType.NEWLINE
-------------------------------
-18              
-               TokenType.NEWLINE
-------------------------------
-18              
-               TokenType.NEWLINE
-------------------------------
-18              do              TokenType.DO   
-------------------------------
-18              :               TokenType.COL  
-------------------------------
-18              print           TokenType.ID   
-------------------------------
-18              <<              TokenType.ASMT 
-------------------------------
-18              "fuck mam d"    TokenType.STRING
-------------------------------
-20              
-               TokenType.NEWLINE
-------------------------------
-20              
-               TokenType.NEWLINE
+1               )               TokenType.RPAREN
 ------------------------------

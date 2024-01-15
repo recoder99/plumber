@@ -17,7 +17,8 @@ def main():
          print("Usage: python plumber.py <input file>")
          sys.exit(1)
     
-    input_file = args_list[1]
+    if not debug:
+        input_file = args_list[1]
 
     #check if file ends with plumb
 
@@ -36,16 +37,16 @@ def main():
 
 
     try: 
+        if not debug:
+            if not input_file.endswith(".plumb"):
+                print("Error: Invalid file type. Try using .plumb")
+                sys.exit(1)
 
-        if not input_file.endswith(".plumb"):
-            print("Error: Invalid file type. Try using .plumb")
-            sys.exit(1)
+            #check if file exist in the system
 
-        #check if file exist in the system
-
-        if not os.path.isfile(input_file):
-            print("Error: File '{}' is not found!".format(input_file))
-            sys.exit(1)
+            if not os.path.isfile(input_file):
+                print("Error: File '{}' is not found!".format(input_file))
+                sys.exit(1)
 
         if not debug:
             filepath = args_list[1]
