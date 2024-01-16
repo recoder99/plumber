@@ -1,8 +1,8 @@
-$x + $y
+#Assignment
+$x << 2
+$y << $x
 
-##
-flsdflsjdklfsd
-fsdfjsklfjklsdf
-fjsdklfjsd
-dfjklsfj
-dfksdfj
+#If statement
+
+#while statement
+while : 10 < i && i < 20 { do : rename --path $var[i] << "file no. $i"; $i + 1 }
