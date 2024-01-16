@@ -51,7 +51,7 @@ class LexicalAnalyzer:
     
     
     keyword_list = ['get', 'set', 'do', 'call', 'run', 'if', 'elif', 'else', 'for', 'while', 'in', 'apl', 'applet', 'true', 'false', '$input']
-    operator_list = [' ', '\n', '\t', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']', '(',')', ',']
+    operator_list = [' ', '\n', '\t', '=', ':', '+', '-', '*', '/','#', '%', '>', '>=', '<', '<=', '<<', '--', '==', '!=', '!',  '&&', '||', ';', '{', '}', '[', ']', '(',')', ',', '<-']
     char_ignore = [' ', '#'] #useless for now
 
     alpha = ['a','A','b', 'B', 'c', 'C', 
@@ -334,6 +334,9 @@ class LexicalAnalyzer:
 
         elif lexeme == '<<': 
             token_type = TokenType.ASMT
+        
+        elif lexeme == '<-': 
+            token_type = TokenType.ARROW
 
         elif lexeme == '--':
             token_type = TokenType.PARAMS

@@ -59,6 +59,7 @@ class TokenType(Enum):
     EOF = 50
 
     ERROR = 51
+    ARROW = 52
 
 class Token(): 
 
