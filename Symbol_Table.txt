@@ -1,15 +1,79 @@
 Token Table: 
 Line            Lexeme          Tokens         
 ------------------------------
-1               $x              TokenType.VAR  
+2               $x              TokenType.VAR  
 ------------------------------
-1               +               TokenType.PLUS 
+2               <<              TokenType.ASMT 
 ------------------------------
-2               $y              TokenType.VAR  
-------------------------------
-3               
-               TokenType.NEWLINE
+3               2               TokenType.NUMBER
 ------------------------------
 3               
                TokenType.NEWLINE
+------------------------------
+3               $y              TokenType.VAR  
+------------------------------
+3               <<              TokenType.ASMT 
+------------------------------
+4               $x              TokenType.VAR  
+------------------------------
+5               
+               TokenType.NEWLINE
+------------------------------
+5               
+               TokenType.NEWLINE
+------------------------------
+7               
+               TokenType.NEWLINE
+------------------------------
+8               while           TokenType.WHILE
+------------------------------
+8               :               TokenType.COL  
+------------------------------
+8               10              TokenType.NUMBER
+------------------------------
+8               <               TokenType.LT   
+------------------------------
+8               i               TokenType.ID   
+------------------------------
+8               &&              TokenType.AND  
+------------------------------
+8               i               TokenType.ID   
+------------------------------
+8               <               TokenType.LT   
+------------------------------
+8               20              TokenType.NUMBER
+------------------------------
+8               {               TokenType.LCBRACK
+------------------------------
+8               do              TokenType.DO   
+------------------------------
+8               :               TokenType.COL  
+------------------------------
+8               rename          TokenType.ID   
+------------------------------
+8               --              TokenType.PARAMS
+------------------------------
+8               path            TokenType.ID   
+------------------------------
+8               $var            TokenType.VAR  
+------------------------------
+8               [               TokenType.LBRACK
+------------------------------
+8               i               TokenType.ID   
+------------------------------
+8               ]               TokenType.RBRACK
+------------------------------
+8               <<              TokenType.ASMT 
+------------------------------
+8               "file no. $i"   TokenType.STRING
+------------------------------
+8               ;               TokenType.SEMICOL
+------------------------------
+8               $i              TokenType.VAR  
+------------------------------
+8               +               TokenType.PLUS 
+------------------------------
+8               1               TokenType.NUMBER
+------------------------------
+8               }               TokenType.RCBRACK
 ------------------------------
