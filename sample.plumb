@@ -2,7 +2,12 @@
 $x << 2
 $y << $x
 
-#If statement
-
-#while statement
+##If statement
+ and while statement ##
 while : 10 < i && i < 20 { do : rename --path $var[i] << "file no. $i"; $i + 1 }
+
+for : $i in 5 {
+    for : $j  in 5 {
+        do : print << $var[$i][$j]
+    }
+}

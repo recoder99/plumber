@@ -33,7 +33,9 @@ def main():
                 str += "\n"
             lex = LexicalAnalyzer(str)
             lex.scanToken()
-            Parser(lex.get_token_list()).ParseToken()
+            parse = Parser(lex.get_token_list())
+            #parse.ParseToken
+            parse.parse()
 
 
     try: 
@@ -59,7 +61,8 @@ def main():
         
         simple_lexer.scanToken()
         parse = Parser(simple_lexer.get_token_list())
-        parse.ParseToken()
+        #parse.ParseToken()
+        parse.parse()
         parse.outputTextFile()
 
     except IOError as e: 

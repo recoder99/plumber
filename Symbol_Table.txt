@@ -25,55 +25,123 @@ Line            Lexeme          Tokens
 7               
                TokenType.NEWLINE
 ------------------------------
-8               while           TokenType.WHILE
+7               while           TokenType.WHILE
 ------------------------------
-8               :               TokenType.COL  
+7               :               TokenType.COL  
 ------------------------------
-8               10              TokenType.NUMBER
+7               10              TokenType.NUMBER
 ------------------------------
-8               <               TokenType.LT   
+7               <               TokenType.LT   
 ------------------------------
-8               i               TokenType.ID   
+7               i               TokenType.ID   
 ------------------------------
-8               &&              TokenType.AND  
+7               &&              TokenType.AND  
 ------------------------------
-8               i               TokenType.ID   
+7               i               TokenType.ID   
 ------------------------------
-8               <               TokenType.LT   
+7               <               TokenType.LT   
 ------------------------------
-8               20              TokenType.NUMBER
+7               20              TokenType.NUMBER
 ------------------------------
-8               {               TokenType.LCBRACK
+7               {               TokenType.LCBRACK
 ------------------------------
-8               do              TokenType.DO   
+7               do              TokenType.DO   
 ------------------------------
-8               :               TokenType.COL  
+7               :               TokenType.COL  
 ------------------------------
-8               rename          TokenType.ID   
+7               rename          TokenType.ID   
 ------------------------------
-8               --              TokenType.PARAMS
+7               --              TokenType.PARAMS
 ------------------------------
-8               path            TokenType.ID   
+7               path            TokenType.ID   
 ------------------------------
-8               $var            TokenType.VAR  
+7               $var            TokenType.VAR  
 ------------------------------
-8               [               TokenType.LBRACK
+7               [               TokenType.LBRACK
 ------------------------------
-8               i               TokenType.ID   
+7               i               TokenType.ID   
 ------------------------------
-8               ]               TokenType.RBRACK
+7               ]               TokenType.RBRACK
 ------------------------------
-8               <<              TokenType.ASMT 
+7               <<              TokenType.ASMT 
 ------------------------------
-8               "file no. $i"   TokenType.STRING
+7               "file no. $i"   TokenType.STRING
 ------------------------------
-8               ;               TokenType.SEMICOL
+7               ;               TokenType.SEMICOL
 ------------------------------
-8               $i              TokenType.VAR  
+7               $i              TokenType.VAR  
 ------------------------------
-8               +               TokenType.PLUS 
+7               +               TokenType.PLUS 
 ------------------------------
-8               1               TokenType.NUMBER
+7               1               TokenType.NUMBER
 ------------------------------
 8               }               TokenType.RCBRACK
+------------------------------
+9               
+               TokenType.NEWLINE
+------------------------------
+9               
+               TokenType.NEWLINE
+------------------------------
+9               for             TokenType.FOR  
+------------------------------
+9               :               TokenType.COL  
+------------------------------
+9               $i              TokenType.VAR  
+------------------------------
+9               in              TokenType.IN   
+------------------------------
+9               5               TokenType.NUMBER
+------------------------------
+10              {               TokenType.LCBRACK
+------------------------------
+10              
+               TokenType.NEWLINE
+------------------------------
+10              for             TokenType.FOR  
+------------------------------
+10              :               TokenType.COL  
+------------------------------
+10              $j              TokenType.VAR  
+------------------------------
+10              in              TokenType.IN   
+------------------------------
+10              5               TokenType.NUMBER
+------------------------------
+11              {               TokenType.LCBRACK
+------------------------------
+11              
+               TokenType.NEWLINE
+------------------------------
+11              do              TokenType.DO   
+------------------------------
+11              :               TokenType.COL  
+------------------------------
+11              print           TokenType.ID   
+------------------------------
+11              <<              TokenType.ASMT 
+------------------------------
+11              $var            TokenType.VAR  
+------------------------------
+11              [               TokenType.LBRACK
+------------------------------
+11              $i              TokenType.VAR  
+------------------------------
+11              ]               TokenType.RBRACK
+------------------------------
+11              [               TokenType.LBRACK
+------------------------------
+11              $j              TokenType.VAR  
+------------------------------
+12              ]               TokenType.RBRACK
+------------------------------
+12              
+               TokenType.NEWLINE
+------------------------------
+13              }               TokenType.RCBRACK
+------------------------------
+13              
+               TokenType.NEWLINE
+------------------------------
+13              }               TokenType.RCBRACK
 ------------------------------
