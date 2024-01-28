@@ -6,20 +6,19 @@ class TokenIterator:
         self.itr = -1
 
     def outOfRange(self) -> bool:
-        if self.itr >= len(self.token_list):
+        if self.itr < len(self.token_list):
             return False
         else:
-            print("Out of range")
             return True
     def peek(self) -> Token:
         if self.outOfRange():
-            return False
+            return Token(TokenType.EOF, "End of file", 99999)
         return self.token_list[self.itr]
     
     def advance(self):
+        self.itr += 1
         if self.outOfRange():
             return False
-        self.itr += 1
         return self.token_list[self.itr]
     
     def resetItr(self):
@@ -93,50 +92,44 @@ class Parser:
 
     def expr(self):
         self.logical()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in [TokenType.OR]:
-            self.logical()
             self.token_list.advance()
+            self.logical()
         pass
 
     def logical(self):
         self.equality()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in [TokenType.AND]:
-            self.equality()
             self.token_list.advance()
+            self.equality()
         pass
 
     def equality(self):
         self.comp()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in (TokenType.EQUAL, TokenType.NEQUAL):
-            self.comp()
             self.token_list.advance()
+            self.comp()
         pass
 
     def comp(self):
         self.term()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in (TokenType.LT, TokenType.LT_EQUAL, TokenType.GT, TokenType.GT_EQUAL):
-            self.term()
             self.token_list.advance()
+            self.term()
         pass
 
     def term(self):
         self.factor()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in (TokenType.PLUS, TokenType.MINUS):
-            self.factor()
             self.token_list.advance()
+            self.factor()
         pass
     
     def factor(self):
         self.not_()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in (TokenType.STAR, TokenType.SLASH, TokenType.MODULO):
-            self.not_()
             self.token_list.advance()
+            self.not_()
         pass
 
     def not_(self):
@@ -146,7 +139,8 @@ class Parser:
         pass
 
     def primary(self):
-        if self.token_list.peek().get_type() == TokenType.LPAREN:
+        if self.token_list.peek().get_type() in [TokenType.LPAREN]:
+            self.token_list.advance()
             self.expr()
             if self.token_list.peek().get_type() != TokenType.RPAREN:
                 print("Syntax Error: \")\" Expected")
