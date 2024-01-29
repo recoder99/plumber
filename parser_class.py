@@ -75,6 +75,7 @@ class Parser:
         self.while_stmt()
         self.pipe_stmt()
         self.apl_stmt()
+        
         pass
 
     
