@@ -143,11 +143,11 @@ class Parser:
 
     def apl_stmt(self):
 
-        if self.token_list.peek().get_type == TokenType.APL:
+        if self.token_list.peek().get_type() == TokenType.APL:
 
             self.token_list.advance()
 
-            if self.token_list.peek().get_type == TokenType.COL: 
+            if self.token_list.peek().get_type() == TokenType.COL: 
                 self.token_list.advance()
                 self.args()
                 self.block_stmt()
@@ -155,10 +155,17 @@ class Parser:
                 if self.token_list.peek().get_type() == TokenType.ARROW:
                     self.token_list.advance()
                     
-                    if self.token_list.peek().get_type == TokenType.ID: 
+                    if self.token_list.peek().get_type() == TokenType.ID: 
                         self.token_list.advance()
                     else: 
                         print("Syntax Error: Expected ID")
+                else: 
+                    print("Syntax Error: Expected arrow '<-' ")
+            
+            else: 
+                print("Syntax Error: Expected colon ':' ")
+            
+            pass 
 
     def args(self): 
 
@@ -167,6 +174,8 @@ class Parser:
         while self.token_list.peek().get_type() == TokenType.COMMA: 
             self.token_list.advance()
             self.var()
+        
+        pass 
 
 
     def block_stmt(self): 
