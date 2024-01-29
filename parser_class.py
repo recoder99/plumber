@@ -42,9 +42,6 @@ class Parser:
     def __init__(self, token_list : list[Token]):
         self.token_list = TokenIterator(token_list)
 
-    def factor(self):
-        if self.token_list.peekToken().get_type() in (TokenType.NUMBER, TokenType.FLOAT):
-            return NumberNode(self.token_list.peekToken())
 
     def ParseToken(self):
         self.token_list.advance()
@@ -52,11 +49,29 @@ class Parser:
         print("Syntax Analyzer finished")
         pass
 
+    def parse_integer(self, token): 
+        try: 
+            return int(token.get_lexeme())
+        except ValueError: 
+            print(f"Error: Invalid integer value at line {token.get_line()}")
+    
+    def parse_float(self, token): 
+        try: 
+            return float(token.get_lexeme())
+        except ValueError: 
+            print(f"Error: Invalid float value at line {token.get_line()}")
+
     def root(self):
-        while not self.token_list.outOfRange():
+
+        while not self.token_list.outOfRange() or self.token_list.peek().get_type == TokenType.EOF:
             self.gen_stmt()
-            self.token_list.advance()
+            
             while self.token_list.peek().get_type() in (TokenType.NEWLINE, TokenType.SEMICOL):
+                self.token_list.advance()
+                if self.token_list.peek().get_type() == TokenType.EOF: 
+
+                    return 
+
                 self.gen_stmt()
         pass
 
@@ -65,36 +80,246 @@ class Parser:
         self.for_stmt()
         self.while_stmt()
         self.pipe_stmt()
+        self.apl_stmt()
+        
         pass
 
     
     def pipe_stmt(self):
         self.stmt()
-        self.token_list.advance()
         while self.token_list.peek().get_type() in [TokenType.ASMT]:
-            self.stmt()
             self.token_list.advance()
+            self.stmt()
+            
         pass
 
     def con_stmt(self):
 
-        pass
+        if self.token_list.peek().get_type() == TokenType.IF: 
+            self.token_list.advance()
+
+            if self.token_list.peek().get_type() == TokenType.COL:
+                self.token_list.advance() 
+                self.expr()
+                self.block_stmt()
+
+                while self.token_list.peek().get_type() == TokenType.ELIF: 
+                    self.token_list.advance()
+
+                    if self.token_list.peek().get_type() == TokenType.COL: 
+                        self.token_list.advance()
+                        self.expr()
+                        self.block_stmt()
+                    
+                    else: 
+                        print(("Syntax Error: Expected ':' after 'elif' "))
+                        
+                
+                if self.token_list.peek().get_type() == TokenType.ELSE: 
+
+                    self.token_list.advance()
+                    self.block_stmt() 
+
+                else: 
+
+                    pass 
+            
+            else: 
+                print("Syntax Error: Expected ':' after 'if'")
+    
 
     def for_stmt(self):
-        pass
+        
+        if self.token_list.peek().get_type() == TokenType.FOR: 
+            
+            self.token_list.advance()
+
+            if self.token_list.peek().get_type() == TokenType.COL: 
+                self.token_list.advance()
+                
+                if self.token_list.peek().get_type == TokenType.VAR: 
+                    self.token_list.advance()
+
+                    if self.token_list.peek().get_type == TokenType.IN:
+                        self.token_list.advance() 
+                        self.expr()
+                        self.block_stmt()
+                    
+                    else: 
+                        print("Syntax Error : Expected 'in' keyword")
+                else: 
+                    print("Syntax Error: Expected variable")
+
+            else: 
+                print("Syntax Error: Expected colon ':' ")
+                self.token_list.advance()
+        
+        pass 
+
+    
 
     def while_stmt(self):
+
+        if self.token_list.peek().get_type == TokenType.WHILE: 
+            self.token_list.advance()
+
+            if self.token_list.peek().get_type == TokenType.COL: 
+                self.expr()
+                self.block_stmt()
+
+        pass
+
+    def apl_stmt(self):
+
+        if self.token_list.peek().get_type() == TokenType.APL:
+
+            self.token_list.advance()
+
+            if self.token_list.peek().get_type() == TokenType.COL: 
+                self.token_list.advance()
+                self.args()
+                self.block_stmt()
+
+                if self.token_list.peek().get_type() == TokenType.ARROW:
+                    self.token_list.advance()
+                    
+                    if self.token_list.peek().get_type() == TokenType.ID: 
+                        self.token_list.advance()
+                    else: 
+                        print("Syntax Error: Expected ID")
+                else: 
+                    print("Syntax Error: Expected arrow '<-' ")
+            
+            else: 
+                print("Syntax Error: Expected colon ':' ")
+            
+            pass 
+
+    def args(self): 
+
+        self.var()
+
+        while self.token_list.peek().get_type() == TokenType.COMMA: 
+            self.token_list.advance()
+            self.var()
+        
+        pass 
+
+
+    def block_stmt(self): 
+
+        if self.token_list.peek().get_type() == TokenType.LCBRACK: 
+
+            self.token_list.advance()
+
+            while self.token_list.peek().get_type() not in [TokenType.RCBRACK, TokenType.EOF]: 
+
+                self.gen_stmt()
+
+                if self.token_list.peek().get_type() == TokenType.SEMICOL: 
+                    self.token_list.advance()
+            
+            if self.token_list.peek().get_type() == TokenType.RCBRACK: 
+                self.token_list.advance()
+            
+            else: 
+                print("Syntax Error: Expected '}")
+
+
+        else: 
+            print("Syntax Error: Expected '{")
+   
         pass
 
     def stmt(self):
-        self.expr()
+        if self.token_list.peek().get_type() in [
+            TokenType.VAR, 
+            TokenType.NUMBER, 
+            TokenType.NOT,
+            TokenType.STAR,
+            TokenType.SLASH,
+            TokenType.MODULO, 
+            TokenType.PLUS,
+            TokenType.MINUS, 
+            TokenType.LT,
+            TokenType.LT_EQUAL, 
+            TokenType.GT,
+            TokenType.GT_EQUAL, 
+            TokenType.EQUAL, 
+            TokenType.NEQUAL, 
+            TokenType.AND, 
+            TokenType.OR, 
+            TokenType.STRING]: 
+            self.expr()
+
+        else: 
+            self.command()
+             
+        
         pass
+     
 
     def expr(self):
         self.logical()
-        while self.token_list.peek().get_type() in [TokenType.OR]:
+        while self.token_list.peek().get_type() == TokenType.OR:
             self.token_list.advance()
             self.logical()
+        pass
+
+    def command(self): 
+
+        self.keyword()
+
+        if self.token_list.peek().get_type() == TokenType.COL: 
+            self.token_list.advance()
+            
+            if self.token_list.peek().get_type() == TokenType.ID: 
+                self.token_list.advance()
+
+                while self.token_list.peek().get_type() == TokenType.PARAMS:    
+                    self.params()
+
+            else: 
+                print("Syntax Error: Expected identifier.")
+
+        else:
+            print("Syntax Error: Expected colon.") 
+        
+        pass 
+
+    def params(self): 
+        
+        if self.token_list.peek().get_type() == TokenType.PARAMS: 
+            self.token_list.advance()
+            
+            if self.token_list.peek().get_type() == TokenType.ID: 
+
+                self.token_list.advance()
+                self.expr()
+            
+            else: 
+                print("Syntax Error: Expected Identifier.")
+
+        else: 
+            print("Syntax Error: Expected '--' ")
+        pass 
+
+
+    def keyword(self): 
+
+        if self.token_list.peek().get_type() in [ 
+            TokenType.GET, 
+            TokenType.SET, 
+            TokenType.DO, 
+            TokenType.RUN, 
+            TokenType.CALL, 
+            TokenType.APL]:
+
+            self.token_list.advance()
+          
+        else: 
+            print("Syntax Error: Expected keyword")
+
         pass
 
     def logical(self):
@@ -151,6 +376,13 @@ class Parser:
             else:
                 print("Syntax Error: Expression Statements Expected")
         pass
+    
+    def var(self): 
+
+        if self.token_list.peek().get_type == TokenType.VAR: 
+            self.token_list.advance() 
+        else: 
+            print("Syntax Error: Expected Variable ")
 
 
     def OutputToken(self):
@@ -162,6 +394,8 @@ class Parser:
             line = i.get_line()
             print("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
             print("-"*30)
+
+    
 
 
 
