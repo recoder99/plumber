@@ -8,7 +8,7 @@ def main():
     #for debug reasons. set this to false if not using debugger
     debug = True
     #set sample file path inside the debug_path
-    debug_path = "D:\\Github Repos\\plumber\\sample.plumb"
+    debug_path = "D:\\user_data\\Documents\\code_projects\\plumber\\sample.plumb"
     #end of debug settings
 
     args_list = sys.argv

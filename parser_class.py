@@ -63,7 +63,7 @@ class Parser:
 
     def root(self):
 
-        while not self.token_list.outOfRange() or self.token_list.peek().get_type == TokenType.EOF:
+        while not self.token_list.outOfRange() or self.token_list.peek().get_type() == TokenType.EOF:
             self.gen_stmt()
             
             while self.token_list.peek().get_type() in (TokenType.NEWLINE, TokenType.SEMICOL):
@@ -73,19 +73,30 @@ class Parser:
                     return 
 
                 self.gen_stmt()
+            print("Syntax Error: Expected Newline")
+            return
         pass
 
     def gen_stmt(self):
+        
         self.con_stmt()
         self.for_stmt()
         self.while_stmt()
-        self.pipe_stmt()
         self.apl_stmt()
+        self.pipe_stmt()
         
         pass
 
     
     def pipe_stmt(self):
+
+        if self.token_list.peek().get_type() in [TokenType.IF, TokenType.FOR, TokenType.WHILE, TokenType.APL, TokenType.EOF, TokenType.ID, TokenType.ERROR, TokenType.NEWLINE, TokenType.SEMICOL]:
+            # if self.token_list.peek().get_type() in [TokenType.EOF, TokenType.NEWLINE]:
+            #     return
+            # print("Syntax Error: Expected Keyword")
+            # self.token_list.advance()
+            return
+        
         self.stmt()
         while self.token_list.peek().get_type() in [TokenType.ASMT]:
             self.token_list.advance()
@@ -114,6 +125,7 @@ class Parser:
                     else: 
                         print(("Syntax Error: Expected ':' after 'elif' "))
                         
+                        
                 
                 if self.token_list.peek().get_type() == TokenType.ELSE: 
 
@@ -126,6 +138,7 @@ class Parser:
             
             else: 
                 print("Syntax Error: Expected ':' after 'if'")
+                
     
 
     def for_stmt(self):
@@ -137,10 +150,10 @@ class Parser:
             if self.token_list.peek().get_type() == TokenType.COL: 
                 self.token_list.advance()
                 
-                if self.token_list.peek().get_type == TokenType.VAR: 
+                if self.token_list.peek().get_type() == TokenType.VAR: 
                     self.token_list.advance()
 
-                    if self.token_list.peek().get_type == TokenType.IN:
+                    if self.token_list.peek().get_type() == TokenType.IN:
                         self.token_list.advance() 
                         self.expr()
                         self.block_stmt()
@@ -160,19 +173,20 @@ class Parser:
 
     def while_stmt(self):
 
-        if self.token_list.peek().get_type == TokenType.WHILE: 
+        if self.token_list.peek().get_type() == TokenType.WHILE: 
             self.token_list.advance()
 
-            if self.token_list.peek().get_type == TokenType.COL: 
+            if self.token_list.peek().get_type() == TokenType.COL:
+                self.token_list.advance() 
                 self.expr()
                 self.block_stmt()
-
+            else:
+                print("Syntax Error: Expected \":\"")
         pass
 
     def apl_stmt(self):
 
         if self.token_list.peek().get_type() == TokenType.APL:
-
             self.token_list.advance()
 
             if self.token_list.peek().get_type() == TokenType.COL: 
@@ -215,9 +229,11 @@ class Parser:
             while self.token_list.peek().get_type() not in [TokenType.RCBRACK, TokenType.EOF]: 
 
                 self.gen_stmt()
-
+                while self.token_list.peek().get_type() == TokenType.NEWLINE:
+                        self.token_list.advance()
                 if self.token_list.peek().get_type() == TokenType.SEMICOL: 
                     self.token_list.advance()
+                    
             
             if self.token_list.peek().get_type() == TokenType.RCBRACK: 
                 self.token_list.advance()
@@ -249,7 +265,9 @@ class Parser:
             TokenType.NEQUAL, 
             TokenType.AND, 
             TokenType.OR, 
-            TokenType.STRING]: 
+            TokenType.STRING,
+            TokenType.LPAREN,
+            TokenType.RPAREN]: 
             self.expr()
 
         else: 
@@ -293,7 +311,6 @@ class Parser:
             self.token_list.advance()
             
             if self.token_list.peek().get_type() == TokenType.ID: 
-
                 self.token_list.advance()
                 self.expr()
             
@@ -379,7 +396,7 @@ class Parser:
     
     def var(self): 
 
-        if self.token_list.peek().get_type == TokenType.VAR: 
+        if self.token_list.peek().get_type() == TokenType.VAR: 
             self.token_list.advance() 
         else: 
             print("Syntax Error: Expected Variable ")
