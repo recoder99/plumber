@@ -49,6 +49,18 @@ class Parser:
         print("Syntax Analyzer finished")
         pass
 
+    def parse_integer(self, token): 
+        try: 
+            return int(token.get_lexeme())
+        except ValueError: 
+            print(f"Error: Invalid integer value at line {token.get_line()}")
+    
+    def parse_float(self, token): 
+        try: 
+            return float(token.get_lexeme())
+        except ValueError: 
+            print(f"Error: Invalid float value at line {token.get_line()}")
+
     def root(self):
         while not self.token_list.outOfRange():
             self.gen_stmt()
@@ -91,6 +103,9 @@ class Parser:
                         self.token_list.advance()
                         self.expr()
                         self.block_stmt()
+                    
+                    else: 
+                        print(("Syntax Error: Expected ':' after 'elif' "))
                         
                 
                 if self.token_list.peek().get_type() == TokenType.ELSE: 
@@ -99,7 +114,11 @@ class Parser:
                     self.block_stmt() 
 
                 else: 
+
                     pass 
+            
+            else: 
+                print("Syntax Error: Expected ':' after 'if'")
     
 
     def for_stmt(self):
@@ -232,7 +251,7 @@ class Parser:
 
     def expr(self):
         self.logical()
-        while self.token_list.peek().get_type() in [TokenType.OR]:
+        while self.token_list.peek().get_type() == TokenType.OR:
             self.token_list.advance()
             self.logical()
         pass
@@ -365,6 +384,8 @@ class Parser:
             line = i.get_line()
             print("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
             print("-"*30)
+
+    
 
 
 
