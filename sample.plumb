@@ -3,7 +3,7 @@ if : $x < 3 {
     do : print << $test;
 
 
-    get : dir << "C:\Users\Roel\"
+    get : dir << "C:\Users\Roel\";
 
 
 }
