@@ -1,1 +1,9 @@
-if : $x < 3 {"Hello world";
+if : $x < 3 {
+    "Hello world";
+    do : print << test;
+
+
+
+
+
+}

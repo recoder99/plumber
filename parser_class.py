@@ -128,9 +128,13 @@ class Parser:
 
         while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
             self.token_list.advance()
-
-        while self.token_list.peek().get_type() not in [TokenType.SEMICOL, TokenType.NEWLINE, TokenType.RCBRACK]:
+        
+        while True:
             self.gen_stmt()
+            if self.token_list.peek().get_type() in [TokenType.SEMICOL]:
+                self.token_list.advance()
+                while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+                    self.token_list.advance()
         
         if self.token_list.peek().get_type == [TokenType.RCBRACK]:
             self.token_list.advance()
