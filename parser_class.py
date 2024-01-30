@@ -40,7 +40,7 @@ class NumberNode:
 class Parser:
 
     keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
-    expr_list = [TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT]
+    expr_list = [TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, TokenType.RPAREN, TokenType.LPAREN]
 
     def __init__(self, token_list : list[Token]):
         self.token_list = TokenIterator(token_list)
@@ -120,7 +120,7 @@ class Parser:
         pass
 
     def block_stmt(self):
-        if self.token_list.peek().get_type() in [TokenType.LBRACK]:
+        if self.token_list.peek().get_type() in [TokenType.LCBRACK]:
             self.token_list.advance()
         else:
             print("Syntax Error: Expected '{'")
@@ -129,10 +129,10 @@ class Parser:
         while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
             self.token_list.advance()
 
-        while self.token_list.peek().get_type() not in [TokenType.SEMICOL, TokenType.NEWLINE]:
+        while self.token_list.peek().get_type() not in [TokenType.SEMICOL, TokenType.NEWLINE, TokenType.RCBRACK]:
             self.gen_stmt()
         
-        if self.token_list.peek().get_type != [TokenType.RBRACK]:
+        if self.token_list.peek().get_type == [TokenType.RCBRACK]:
             self.token_list.advance()
         else:
             print("Syntax Error: Expected '}'")

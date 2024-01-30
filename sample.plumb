@@ -1,1 +1,1 @@
-do : print --test  << "Hello world"
+if : $x < 3 {"Hello world";
