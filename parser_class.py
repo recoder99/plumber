@@ -208,6 +208,15 @@ class Parser:
                 print("Syntax Error: Expected colon ':' ")
             
             pass 
+    def args(self): 
+
+        self.var()
+
+        while self.token_list.peek().get_type() == TokenType.COMMA: 
+            self.token_list.advance()
+            self.var()
+        
+        pass
 
 
     def stmt(self):
