@@ -1,6 +1,6 @@
 if : $x < 3 {
     "Hello world";
-    do : print << test;
+    do : print << $test;
 
 
 }

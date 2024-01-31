@@ -126,23 +126,23 @@ class Parser:
             print("Syntax Error: Expected '{'")
             return
 
-        while self.token_list.peek().get_type() not in [TokenType.RCBRACK, TokenType.EOF]:
-            self.gen_stmt()
+        while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+            self.token_list.advance()
         
-            while self.token_list.peek().get_type() == TokenType.NEWLINE: 
-                self.token_list.advance()
+        while self.token_list.peek().get_type() not in [TokenType.EOF]:
+            self.gen_stmt()
 
             if self.token_list.peek().get_type() == TokenType.SEMICOL: 
                 self.token_list.advance()
-        if self.token_list.peek().get_type() == TokenType.RCBRACK: 
-            self.token_list.advance()
-        else: 
-            print("Syntax Error : Expected  '}' ")
-
-        while self.token_list.peek().get_type() == TokenType.NEWLINE: 
-            self.token_list.advance()
+                while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+                    self.token_list.advance()
+            else:
+                print("Syntax Error: Expected \";\"")
+                return
+            if self.token_list.peek().get_type() in [TokenType.RCBRACK]:
+                break
         
-        if self.token_list.peek().get_type == [TokenType.RCBRACK]:
+        if self.token_list.peek().get_type() in [TokenType.RCBRACK]:
             self.token_list.advance()
         else:
             print("Syntax Error: Expected '}'")
