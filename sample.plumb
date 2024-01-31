@@ -3,7 +3,4 @@ if : $x < 3 {
     do : print << test;
 
 
-
-
-
 }

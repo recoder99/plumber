@@ -6,7 +6,7 @@ import os
 def main():
 
     #for debug reasons. set this to false if not using debugger
-    debug = True
+    debug = False
     #set sample file path inside the debug_path
     debug_path = "D:\\Github Repos\\plumber\\sample.plumb"
     #end of debug settings
