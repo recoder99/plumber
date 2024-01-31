@@ -84,6 +84,8 @@ class Parser:
             self.for_stmt()
         elif self.token_list.peek().get_type() in [TokenType.WHILE]:
             self.while_stmt()
+        elif self.token_list.peek().get_type() in [TokenType.APL]: 
+            self.apl_stmt()
         pass
 
     def pipe_stmt(self):
@@ -181,6 +183,32 @@ class Parser:
         self.expr()
         self.block_stmt()
         pass
+
+    def apl_stmt(self):
+
+        if self.token_list.peek().get_type() == TokenType.APL:
+            self.token_list.advance()
+
+            if self.token_list.peek().get_type() == TokenType.COL: 
+                self.token_list.advance()
+                self.args()
+                self.block_stmt()
+
+                if self.token_list.peek().get_type() == TokenType.ARROW:
+                    self.token_list.advance()
+                    
+                    if self.token_list.peek().get_type() == TokenType.ID: 
+                        self.token_list.advance()
+                    else: 
+                        print("Syntax Error: Expected ID")
+                else: 
+                    print("Syntax Error: Expected arrow '<-' ")
+            
+            else: 
+                print("Syntax Error: Expected colon ':' ")
+            
+            pass 
+
 
     def stmt(self):
 
