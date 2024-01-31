@@ -200,7 +200,7 @@ class Parser:
                     if self.token_list.peek().get_type() == TokenType.ID: 
                         self.token_list.advance()
                     else: 
-                        print("Syntax Error: Expected ID")
+                        print("Syntax Error: Expected ID at line ")
                 else: 
                     print("Syntax Error: Expected arrow '<-' ")
             
@@ -208,13 +208,13 @@ class Parser:
                 print("Syntax Error: Expected colon ':' ")
             
             pass 
+        
     def args(self): 
 
         self.var()
-
         while self.token_list.peek().get_type() == TokenType.COMMA: 
             self.token_list.advance()
-            self.var()
+            self.args()
         
         pass
 
@@ -332,7 +332,7 @@ class Parser:
     
     def var(self): 
 
-        if self.token_list.peek().get_type() == TokenType.VAR: 
+        if self.token_list.peek().get_type() in [TokenType.VAR, TokenType.INPUT]: 
             self.token_list.advance() 
         else: 
             print("Syntax Error: Expected Variable ")
