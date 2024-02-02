@@ -1,6 +1,1 @@
-if : $x < 3 {
-    "Hello world";
-    do : print << $test;
-
-
-}
+!3

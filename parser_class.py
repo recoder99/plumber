@@ -24,6 +24,8 @@ class TokenIterator:
     def resetItr(self):
         self.itr = -1
 
+
+
 class BinNode:
     def __init__(self, left : Token, op : Token, right : Token):
         self.left = left
@@ -253,11 +255,8 @@ class Parser:
         else:
             print("Syntax Error: Expected ID token")
             return
-        
-        if self.token_list.peek().get_type() in [TokenType.PARAMS]:
-            return
-        
-        self.expr()
+        if self.token_list.peek().get_type() in self.expr_list:
+            self.expr()
 
     
         pass
@@ -317,18 +316,41 @@ class Parser:
         pass
 
     def primary(self):
+
+        if self.token_list.peek().get_type() in [TokenType.PLUS, TokenType.MINUS]:
+            self.token_list.advance()
+            if self.token_list.peek().get_type() in [TokenType.NUMBER]:
+                self.integer()
+                return
+            elif self.token_list.peek().get_type() in [TokenType.FLOAT]:
+                self.float()
+                return
+            print("Syntax Error: Expected integer or float value")
+            return
+            pass
         if self.token_list.peek().get_type() in [TokenType.LPAREN]:
             self.token_list.advance()
             self.expr()
             if self.token_list.peek().get_type() != TokenType.RPAREN:
                 print("Syntax Error: \")\" Expected")
             self.token_list.advance()
+            return
+
+        if self.token_list.peek().get_type() in (TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT):
+            self.token_list.advance()
         else:
-            if self.token_list.peek().get_type() in (TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT):
-                self.token_list.advance()
-            else:
-                print("Syntax Error: Expression Statements Expected")
+            print("Syntax Error: Expression Statements Expected")
         pass
+
+    def integer(self):
+        if self.token_list.peek().get_type() in [TokenType.NUMBER]:
+            self.token_list.advance()
+        return
+    
+    def float(self):
+        if self.token_list.peek().get_type() in [TokenType.FLOAT]:
+            self.token_list.advance()
+        return
     
     def var(self): 
 
