@@ -303,6 +303,7 @@ class LexicalAnalyzer:
             token_type = TokenType.COL
 
         elif lexeme == '\n': 
+            lexeme = "NL"
             token_type = TokenType.NEWLINE
 
         elif lexeme == '(': 

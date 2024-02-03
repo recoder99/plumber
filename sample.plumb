@@ -1,3 +1,0 @@
-if : $x {
-    do : stuff --yeah 3 "grammar";
-}
