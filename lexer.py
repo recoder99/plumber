@@ -69,6 +69,12 @@ class LexicalAnalyzer:
     alnum = alpha + num 
     
     valid = alpha + ['_'] 
+    
+    current_line = 1
+
+    newline = False
+
+    error = False
 
     
 
@@ -120,7 +126,7 @@ class LexicalAnalyzer:
 
                         if str_file.check_out_of_range() == True:
                             eof = True
-                            print("Expected Multiline Comment Terminator '##'")
+                            print("\033[0;31m"+"Expected Multiline Comment Terminator '##'")
                             break
                         
                     if eof:
@@ -128,7 +134,7 @@ class LexicalAnalyzer:
                         #ignore everything
                     
                     if str_file.read_itr() != "#":
-                        print("Expected Another # for multiline comment")
+                        print("\033[0;31m"+"Expected Another # for multiline comment")
                         continue
                 
                 if multiline == False:
@@ -238,7 +244,6 @@ class LexicalAnalyzer:
         
 
     def tokenize(self, lexeme, line_number : int):
-
         while lexeme and (lexeme[0] == ' ' or lexeme[0]== '\t'):  
             lexeme = lexeme[1:]
 
@@ -304,6 +309,7 @@ class LexicalAnalyzer:
 
         elif lexeme == '\n': 
             lexeme = "NL"
+            self.newline = True
             token_type = TokenType.NEWLINE
 
         elif lexeme == '(': 
@@ -353,15 +359,22 @@ class LexicalAnalyzer:
 
         else: 
             token_type = TokenType.ERROR
-            print(f"A lexical error has been encountered. The following lexeme is not recognized{lexeme}") 
+            print("\033[0;31m"+f"[L: {self.current_line}] The following lexeme is not recognized: {lexeme}") 
+            self.error = True
 
         
-        token = Token(token_type, lexeme, line_number)
-        self.token_table.append((line_number, lexeme, token_type.name))
+        token = Token(token_type, lexeme, self.current_line)
         self.token_list.append(token)
+
+        if self.newline:
+            self.current_line += 1
+            self.newline = False
 
     def get_token_list(self):
         return self.token_list
+    
+    def isError(self):
+        return self.error
     
     
     

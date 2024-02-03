@@ -6,13 +6,13 @@ import os
 def main():
 
     #for debug reasons. set this to false if not using debugger
-    debug = True#set sample file path inside the debug_path
+    debug = False#set sample file path inside the debug_path
     debug_path = os.getcwd() + "\\sample.plumb"
     script_path = ""
     #end of debug settings
 
-    shell = False
-    script = True
+    shell = True
+    script = False
 
     args_list = sys.argv
 
@@ -32,15 +32,16 @@ def main():
 
     if shell:
         while True:
-            str = input("Plumber shell << ")
+            str = input("\033[0m"+"Plumber shell << ")
             if str == "":
                 continue
             else:
                 str += "\n"
             lex = LexicalAnalyzer(str)
             lex.scanToken()
-            Parser(lex.get_token_list()).OutputToken()
-            Parser(lex.get_token_list()).ParseToken()
+            if lex.isError():
+                 continue
+            parser = Parser(lex.get_token_list()).ParseToken()
 
     if script:
         if debug:
@@ -55,7 +56,8 @@ def main():
             lexer = LexicalAnalyzer(file_str)
             lexer.scanToken()
             parser = Parser(lexer.get_token_list())
-            parser.OutputToken()
+            if lexer.isError():
+                 return
             parser.ParseToken()
 
 

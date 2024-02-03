@@ -35,23 +35,30 @@ class SyntaxError:
     def message(self, message, token : Token):
         if self.isTriggered:
             return
-        print(f"[Line: {token.get_line()}] Syntax Error: {message}")
+        print("\033[0;31m"+f"[Line: {token.get_line()}] Syntax Error: {message}")
+        print(f"Error token: {token.get_lexeme()}")
         self.isTriggered = True
     
 class Parser:
 
     keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
-    expr_list = [TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, TokenType.RPAREN, TokenType.LPAREN, TokenType.PLUS, TokenType.MINUS, TokenType.NOT]
+    expr_list = [TokenType.NUMBER, TokenType.LT, TokenType.GT, 
+                 TokenType.LT_EQUAL, TokenType.GT_EQUAL, TokenType.VAR, 
+                 TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, 
+                 TokenType.RPAREN, TokenType.LPAREN, TokenType.PLUS, TokenType.MINUS, 
+                 TokenType.NOT, TokenType.STAR, TokenType.EQUAL]
 
     def __init__(self, token_list : list[Token]):
         self.token_list = TokenIterator(token_list)
 
-    error = SyntaxError()
+    error = None
 
     def ParseToken(self):
+        self.error = SyntaxError()
         self.token_list.advance()
         self.root()
-        print("Syntax Analyzer finished")
+        print("\033[0;32m" + "Syntax Analyzer finished")
+        self.error = None
         pass
 
     def parse_integer(self, token): 
@@ -88,6 +95,8 @@ class Parser:
             self.while_stmt()
         elif self.token_list.peek().get_type() in [TokenType.APL]: 
             self.apl_stmt()
+        elif self.token_list.peek().get_type() in [TokenType.ID]:
+             self.error.message(f"\"{self.token_list.peek().get_lexeme()}\" is not a valid statement", self.token_list.peek())
         pass
 
     def pipe_stmt(self):
@@ -97,7 +106,7 @@ class Parser:
             self.stmt()
         pass
         if self.token_list.peek().get_type() not in [TokenType.NEWLINE, TokenType.SEMICOL]:
-            self.error.message("Expected Newline", self.token_list.peek())
+            self.error.message(f"Expected Delimiter (Newline or Semicolon)", self.token_list.peek())
 
 
     def con_stmt(self):
@@ -106,7 +115,7 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.COL]:
             self.token_list.advance()
         else:
-            print("Syntax Error: \":\" Expected")
+            self.error.message("\":\" Expected", self.token_list.peek())
             return
         self.expr()
         self.block_stmt()
@@ -114,7 +123,7 @@ class Parser:
             if self.token_list.peek().get_type() in [TokenType.COL]:
                 self.token_list.advance()
             else:
-                print("Syntax Error: \":\" Expected")
+                self.error.message("\":\" Expected", self.token_list.peek())
                 return
             self.expr()
             self.block_stmt()
@@ -127,7 +136,7 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.LCBRACK]:
             self.token_list.advance()
         else:
-            print("Syntax Error: Expected '{'")
+            self.error.message("Expected '{'", self.token_list.peek())
             return
 
         while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
@@ -141,7 +150,7 @@ class Parser:
                 while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
                     self.token_list.advance()
             else:
-                print("Syntax Error: Expected \";\"")
+                self.error.message("Expected \";\"", self.token_list.peek())
                 return
             if self.token_list.peek().get_type() in [TokenType.RCBRACK]:
                 break
@@ -149,7 +158,7 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.RCBRACK]:
             self.token_list.advance()
         else:
-            print("Syntax Error: Expected '}'")
+            self.error.message("Expected '}'", self.token_list.peek())
             return
 
     def for_stmt(self):
@@ -158,17 +167,17 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.COL]:
                 self.token_list.advance()
         else:
-            print("Syntax Error: \":\" Expected")
+            self.error.message("\":\" Expected", self.token_list.peek())
             return
         if self.token_list.peek().get_type() in [TokenType.VAR]:
             self.token_list.advance()
         else:
-            print("Syntax Error: variable expected")
+            self.error.message("Expected variable token type", self.token_list.peek())
             return
         if self.token_list.peek().get_type() in [TokenType.IN]:
             self.token_list.advance()
         else:
-            print("Syntax Error: \"in\" Expected")
+            self.error.message("Expected \"in\"", self.token_list.peek())
             return
         self.expr()
         self.block_stmt()
@@ -180,7 +189,7 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.COL]:
                 self.token_list.advance()
         else:
-            print("Syntax Error: \":\" Expected")
+            self.error.message("\":\" Expected", self.token_list.peek())
             return
         self.expr()
         self.block_stmt()
@@ -202,12 +211,12 @@ class Parser:
                     if self.token_list.peek().get_type() == TokenType.ID: 
                         self.token_list.advance()
                     else: 
-                        print("Syntax Error: Expected ID at line ")
+                        self.error.message("Expected ID at line ", self.token_list.peek())
                 else: 
-                    print("Syntax Error: Expected arrow '<-' ")
+                    self.error.message("Expected arrow '<-' token type", self.token_list.peek())
             
             else: 
-                print("Syntax Error: Expected colon ':' ")
+                self.error.message("Expected colon ':' ", self.token_list.peek())
             
             pass 
         
@@ -228,7 +237,7 @@ class Parser:
         elif self.token_list.peek().get_type() in self.expr_list:
             self.expr()
         else:
-            print("I don't know how the fuck you get here but congrats, you have a bug")
+            self.error.message(f"\"{self.token_list.peek().get_lexeme()}\" is not a valid statement", self.token_list.peek())
         pass
 
     def command(self):
@@ -236,13 +245,13 @@ class Parser:
         if self.token_list.peek().get_type() == TokenType.COL:
             self.token_list.advance()
         else:
-            print("Syntax Error: Expected Colon")
+            self.error.message("Expected \":\"")
             return
         
         if self.token_list.peek().get_type() == TokenType.ID:
             self.token_list.advance()
         else:
-            print("Syntax Error: Expected ID")
+            self.error.message("Expected ID token type", self.token_list.peek())
             return
         
         while self.token_list.peek().get_type() in [TokenType.PARAMS]:
@@ -253,7 +262,7 @@ class Parser:
         if self.token_list.peek().get_type() == TokenType.ID:
             self.token_list.advance()
         else:
-            print("Syntax Error: Expected ID token")
+            self.error.message("Expected ID token type", self.token_list.peek())
             return
         if self.token_list.peek().get_type() in self.expr_list:
             self.expr()
@@ -325,21 +334,21 @@ class Parser:
             elif self.token_list.peek().get_type() in [TokenType.FLOAT]:
                 self.float()
                 return
-            print("Syntax Error: Expected integer or float value")
+            self.error.message("Expected integer or float value", self.token_list.peek())
             return
             pass
         if self.token_list.peek().get_type() in [TokenType.LPAREN]:
             self.token_list.advance()
             self.expr()
             if self.token_list.peek().get_type() != TokenType.RPAREN:
-                print("Syntax Error: \")\" Expected")
+                self.error.message(" Expected \")\"", self.token_list.peek())
             self.token_list.advance()
             return
 
         if self.token_list.peek().get_type() in (TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT):
             self.token_list.advance()
         else:
-            print("Syntax Error: Expression Statements Expected")
+            self.error.message(f"Expression statement expected, \"{self.token_list.peek().get_lexeme()}\" is not a valid expression", self.token_list.peek())
         pass
 
     def integer(self):
