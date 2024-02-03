@@ -24,29 +24,29 @@ class TokenIterator:
     def resetItr(self):
         self.itr = -1
 
+    def retrieveList(self):
+        return self.token_list
 
+class SyntaxError:
 
-class BinNode:
-    def __init__(self, left : Token, op : Token, right : Token):
-        self.left = left
-        self.op = op
-        self.right = right
+    def __init__(self) -> None:
+        self.isTriggered = False
 
-class NumberNode:
-    def __init__(self, number : Token):
-        self.number = number
-
-    def __repr__(self) -> str:
-        return f'{self.number.get_type()}'
+    def message(self, message, token : Token):
+        if self.isTriggered:
+            return
+        print(f"[Line: {token.get_line()}] Syntax Error: {message}")
+        self.isTriggered = True
     
 class Parser:
 
     keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
-    expr_list = [TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, TokenType.RPAREN, TokenType.LPAREN]
+    expr_list = [TokenType.NUMBER, TokenType.VAR, TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, TokenType.RPAREN, TokenType.LPAREN, TokenType.PLUS, TokenType.MINUS, TokenType.NOT]
 
     def __init__(self, token_list : list[Token]):
         self.token_list = TokenIterator(token_list)
 
+    error = SyntaxError()
 
     def ParseToken(self):
         self.token_list.advance()
@@ -97,7 +97,7 @@ class Parser:
             self.stmt()
         pass
         if self.token_list.peek().get_type() not in [TokenType.NEWLINE, TokenType.SEMICOL]:
-            print("Syntax Error: Expected Newline")
+            self.error.message("Expected Newline", self.token_list.peek())
 
 
     def con_stmt(self):
@@ -368,7 +368,7 @@ class Parser:
         print("{}\t{}\t{} ".format("Line", "Lexeme", "Tokens"))
         print("-"*30)
 
-        for i in self.token_list:
+        for i in self.token_list.retrieveList():
             line = i.get_line()
             print("{}\t{}\t{}".format(line, i.get_lexeme(), i.get_type()))
             print("-"*30)
