@@ -12,7 +12,7 @@ class TokenIterator:
             return True
     def peek(self) -> Token:
         if self.outOfRange():
-            return Token(TokenType.EOF, "End of file", len(self.token_list))
+            return Token(TokenType.EOF, "End of file", self.token_list[-1].get_line())
         return self.token_list[self.itr]
     
     def advance(self):
