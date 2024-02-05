@@ -11,7 +11,7 @@ def main():
     script_path = ""
     #end of debug settings
 
-    shell = True
+    shell = False
     script = False
 
     args_list = sys.argv

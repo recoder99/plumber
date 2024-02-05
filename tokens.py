@@ -60,6 +60,7 @@ class TokenType(Enum):
 
     ERROR = 51
     ARROW = 52
+    COMMENT = 53
 
 class Token(): 
 
