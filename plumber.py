@@ -6,13 +6,13 @@ import os
 def main():
 
     #for debug reasons. set this to false if not using debugger
-    debug = True #set sample file path inside the debug_path
+    debug = False #set sample file path inside the debug_path
     debug_path = os.getcwd() + "\\sample.plumb"
     script_path = ""
 
     #end of debug settings
     shell = False
-    script = True
+    script = False
 
     args_list = sys.argv
 
