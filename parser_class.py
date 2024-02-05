@@ -98,7 +98,7 @@ class Parser:
             self.while_stmt()
         elif self.token_list.peek().get_type() in [TokenType.APL]: 
             self.apl_stmt()
-        elif self.token_list.peek().get_type() in [TokenType.NEWLINE, TokenType.EOF]:
+        elif self.token_list.peek().get_type() in [TokenType.NEWLINE, TokenType.EOF, TokenType.RCBRACK]:
             return
         else:
              self.error.message(f"\"{self.token_list.peek().get_lexeme()}\" is not a valid statement", self.token_list.peek(), self.token_list)
