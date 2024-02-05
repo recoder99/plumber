@@ -249,7 +249,7 @@ class Parser:
         if self.token_list.peek().get_type() == TokenType.COL:
             self.token_list.advance()
         else:
-            self.error.message("Expected \":\"", self.token_list)
+            self.error.message("Expected \":\"", self.token_list.peek(), self.token_list)
             return
         
         if self.token_list.peek().get_type() == TokenType.ID:
