@@ -106,7 +106,7 @@ class Parser:
 
     def pipe_stmt(self):
         self.stmt()
-        while self.token_list.peek().get_type() in [TokenType.ASMT]:
+        while self.token_list.peek().get_type() in [TokenType.ASMT]: 
             self.token_list.advance()
             self.stmt()
         pass
@@ -372,7 +372,7 @@ class Parser:
         if self.token_list.peek().get_type() in [TokenType.VAR, TokenType.INPUT]: 
             self.token_list.advance() 
         else: 
-            print("Syntax Error: Expected Variable ", self.token_list)
+            self.error.message("Expected variable", self.token_list.peek(), self.token_list)
 
   
 
