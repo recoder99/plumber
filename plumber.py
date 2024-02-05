@@ -6,13 +6,13 @@ import os
 def main():
 
     #for debug reasons. set this to false if not using debugger
-    debug = False#set sample file path inside the debug_path
+    debug = True #set sample file path inside the debug_path
     debug_path = os.getcwd() + "\\sample.plumb"
     script_path = ""
-    #end of debug settings
 
+    #end of debug settings
     shell = False
-    script = False
+    script = True
 
     args_list = sys.argv
 
@@ -61,8 +61,8 @@ def main():
             parser.ParseToken()
 
 
-        except:
-            print("some error occured")
+        except Exception as e:
+            print(e)
 
 if __name__ == "__main__": 
     main()

@@ -121,6 +121,8 @@ class LexicalAnalyzer:
                 if str_file.read_itr() == "#":
                     multiline = True
                     while str_file.peek_itr() is not None:
+                        if str_file.peek_itr() == "\n":
+                            self.current_line += 1
                         if str_file.read_itr() == "#":
                             break
 
@@ -141,6 +143,7 @@ class LexicalAnalyzer:
                     while str_file.read_itr() != "\n" and not str_file.check_out_of_range():
                         multiline = False
                         #ignore everything
+                    self.current_line += 1
                 c = str_file.read_itr()
                 continue
 
