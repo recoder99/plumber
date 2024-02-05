@@ -106,7 +106,7 @@ class Parser:
             self.stmt()
         pass
         if self.token_list.peek().get_type() not in [TokenType.NEWLINE, TokenType.SEMICOL]:
-            self.error.message(f"Expected Delimiter (Newline or Semicolon)", self.token_list.peek())
+            self.error.message(f"{self.token_list.peek().get_lexeme()} is not a valid delimiter", self.token_list.peek())
 
 
     def con_stmt(self):
