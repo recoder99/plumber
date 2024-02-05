@@ -108,6 +108,7 @@ class Parser:
         self.expr()
         self.block_stmt()
         while self.token_list.peek().get_type() in [TokenType.ELIF]:
+            self.token_list.advance()
             if self.token_list.peek().get_type() in [TokenType.COL]:
                 self.token_list.advance()
             else:
