@@ -61,18 +61,6 @@ class Parser:
         self.error = None
         pass
 
-    def parse_integer(self, token): 
-        try: 
-            return int(token.get_lexeme())
-        except ValueError: 
-            print(f"Error: Invalid integer value at line {token.get_line()}")
-    
-    def parse_float(self, token): 
-        try: 
-            return float(token.get_lexeme())
-        except ValueError: 
-            print(f"Error: Invalid float value at line {token.get_line()}")
-
     def root(self):
         self.gen_stmt()
 
