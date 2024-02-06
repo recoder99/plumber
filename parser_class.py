@@ -124,6 +124,8 @@ class Parser:
             return
         self.expr()
         self.block_stmt()
+        while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+            self.token_list.advance()
         while self.token_list.peek().get_type() in [TokenType.ELIF]:
             self.token_list.advance()
             if self.token_list.peek().get_type() in [TokenType.COL]:
@@ -133,12 +135,16 @@ class Parser:
                 return
             self.expr()
             self.block_stmt()
+        while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+            self.token_list.advance()
         if self.token_list.peek().get_type() in [TokenType.ELSE]:
             self.token_list.advance()
             self.block_stmt()
         pass
 
     def block_stmt(self):
+        while self.token_list.peek().get_type() in [TokenType.NEWLINE]:
+            self.token_list.advance()
         if self.token_list.peek().get_type() in [TokenType.LCBRACK]:
             self.token_list.advance()
         else:
