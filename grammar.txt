@@ -1,0 +1,36 @@
+<root> ::= (<gen_stmt> (<newline>|;))* EOF
+<gen_stmt> ::= <con_stmt> | <pipe_stmt> | <for_stmt> | <while_stmt> | <apl_stmt> | Ɛ
+<pipe_stmt> ::= <stmt>(<< <stmt>)*
+<stmt> ::= <expr> | <command>
+<command> ::= <keyword> : <id> (--<params>)*
+<params> ::= <id> (<expr> | <id>)
+<id> ::= (“_” + <alpha>) (‘_’ | <alpha> | <digit>)*  
+<keyword> ::= (get | set | do | run | call)
+<con_stmt> ::= if : <expr> <block_stmt> (elif : <expr><block_stmt>)* (else <block_stmt> | Ɛ)	
+<block_stmt> ::= {<newline>*(<gen_stmt>;<newline>*)*}
+<for_stmt> ::= for : <var> in <expr><block_stmt>
+<while_stmt> ::= while : <expr><block_stmt> 
+<apl_stmt> ::= apl : <args> <block_stmt> <- <id>
+<args> ::= <var> (,<args> )*  
+<newline> ::= \n
+
+
+
+
+## Expression ## 
+
+<expr> ::= <logical> ( || <logical>)*
+<logical> ::= <equality> ( && <equality>)*
+<equality> ::= <comp> ((== |!= ) <comp>)*
+<comp> ::= <term> ((< | <= | > | >=) <term>)*		``
+<term> ::= <factor> ((+ | -) <factor>)*
+<factor> ::= <not> ((* | / | %) <not>)*
+<not> ::= (! | Ɛ) <primary>
+<primary> ::= <integer> |(<expr>)| <var> | <string> | <bool> | <float> 
+<var> ::= $<id>
+<integer> ::= (+ | - 	| Ɛ)<digits>^+
+<float> ::= ( + | - | Ɛ). <digit>^+ 
+<digits> :: = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0
+<alpha>::= {x | x is a member of english alphabet}
+<bool> ::= true | false 
+<string> ::= “ (<alpha> | <digit> | <spec_char>)* 
