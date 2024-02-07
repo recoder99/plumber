@@ -311,7 +311,7 @@ class LexicalAnalyzer:
             token_type = TokenType.COL
 
         elif lexeme == '\n': 
-            lexeme = "NL"
+            lexeme = ""
             self.newline = True
             token_type = TokenType.NEWLINE
 

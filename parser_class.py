@@ -24,7 +24,7 @@ class TokenIterator:
     def resetItr(self):
         self.itr = -1
 
-    def retrieveList(self):
+    def retrieveList(self) -> list[Token]:
         return self.token_list
     
     def prev_token_lexeme(self):
@@ -41,16 +41,47 @@ class TokenIterator:
 
 class SyntaxError:
 
+    keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
+    expr_list = [TokenType.NUMBER, TokenType.LT, TokenType.GT, 
+                 TokenType.LT_EQUAL, TokenType.GT_EQUAL, TokenType.VAR, 
+                 TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, 
+                 TokenType.RPAREN, TokenType.LPAREN, TokenType.PLUS, TokenType.MINUS, 
+                 TokenType.NOT, TokenType.STAR, TokenType.EQUAL]
+    
     def __init__(self) -> None:
         self.isTriggered = False
 
     def message(self, message, token : Token, token_itr : TokenIterator):
         if self.isTriggered:
             return
-        print("\033[0;31m"+f"[Line: {token.get_line()}] Syntax Error: {message}")
+        print(f"[Line: {token.get_line()}] Syntax Error: {message}")
         
         print(f"Error token: {token.get_lexeme()}")
-        print(f"\033[0;31m{token_itr.prev_token_lexeme()} \033[1m\033[3m{token.get_lexeme()} \033[0;31m{token_itr.next_token_lexeme()}")
+        list = token_itr.retrieveList()
+        i = token_itr.itr - 1
+        error_stack = []
+        while list[i].get_type() not in self.keyword_list and i > 0:
+            if list[i] == "\n":
+                i = i-1
+                continue
+            error_stack.append(list[i])
+            i = i-1
+        if i >= 0:
+            error_stack.append(list[i])
+        error_msg = ""
+        while len(error_stack) != 0:
+            tkn = error_stack.pop()
+            error_msg += tkn.get_lexeme() + " "
+        error_len = len(error_msg)
+        error_msg += token_itr.peek().get_lexeme()
+        print(error_msg)
+        for i in range(error_len):
+            print(" ", end="")
+        print("\033[1;33m^^", end=" ")
+        print("")
+            
+
+        #print(f"\033[0;31m{token_itr.prev_token_lexeme()} \033[1m\033[3m{token.get_lexeme()} \033[0;31m{token_itr.next_token_lexeme()}")
 
         self.isTriggered = True
     
@@ -72,7 +103,7 @@ class Parser:
         self.error = SyntaxError()
         self.token_list.advance()
         self.root()
-        print("\033[0;32m" + "Syntax Analyzer finished")
+        print("\033[0;32m" + "Syntax Analyzer finished\033[0m")
         self.error = None
         pass
 
@@ -278,9 +309,8 @@ class Parser:
             return
         if self.token_list.peek().get_type() in self.expr_list:
             self.expr()
-
-    
         pass
+
     def keyword(self):
         keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
         if self.token_list.peek().get_type() in keyword_list:
