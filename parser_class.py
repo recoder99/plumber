@@ -41,7 +41,7 @@ class TokenIterator:
 
 class SyntaxError:
 
-    keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL]
+    keyword_list = [TokenType.GET, TokenType.SET, TokenType.DO, TokenType.RUN, TokenType.CALL, TokenType.IF, TokenType.FOR, TokenType.APL]
     expr_list = [TokenType.NUMBER, TokenType.LT, TokenType.GT, 
                  TokenType.LT_EQUAL, TokenType.GT_EQUAL, TokenType.VAR, 
                  TokenType.STRING, TokenType.TRUE, TokenType.FALSE, TokenType.FLOAT, 
@@ -54,9 +54,9 @@ class SyntaxError:
     def message(self, message, token : Token, token_itr : TokenIterator):
         if self.isTriggered:
             return
-        print(f"[Line: {token.get_line()}] Syntax Error: {message}")
+        print(f"\033[1;31m[Line: {token.get_line()}] Syntax Error: {message}\033[0m")
         
-        print(f"Error token: {token.get_lexeme()}")
+        print(f"\033[1;31mError token: {token.get_lexeme()}\033[0m")
         list = token_itr.retrieveList()
         i = token_itr.itr - 1
         error_stack = []
@@ -73,7 +73,7 @@ class SyntaxError:
             tkn = error_stack.pop()
             error_msg += tkn.get_lexeme() + " "
         error_len = len(error_msg)
-        error_msg += token_itr.peek().get_lexeme()
+        error_msg += "\033[0;31m" + token_itr.peek().get_lexeme() + "\033[0m"
         print(error_msg)
         for i in range(error_len):
             print(" ", end="")
@@ -260,7 +260,6 @@ class Parser:
             
             else: 
                 self.error.message("Expected colon ':' ", self.token_list.peek(), self.token_list)
-            
             pass 
         
     def args(self): 
